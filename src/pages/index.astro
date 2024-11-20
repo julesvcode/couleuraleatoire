@@ -6,9 +6,17 @@ import ColorWidget from '../components/ColorWidget.astro';
 const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
 ---
 
-<Layout title="Random Color Generator" backgroundColor={initialColor}>
+<Layout title="Random Color Generator">
 	<main>
-		<ColorWidget currentColor={initialColor} />
+		<section id="colorSection" style={`background-color: ${initialColor}`} class="flex min-h-screen font-sans">
+			<div class="flex flex-1 items-center justify-start pl-24">
+				<ColorWidget currentColor={initialColor} />
+			</div>
+			<div class="flex flex-1"></div>
+		</section>
+		<section class="min-h-screen font-sans">
+			Text
+		</section>
 	</main>
 </Layout>
 
