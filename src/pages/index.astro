@@ -1,10 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ColorWidget from '../components/ColorWidget.astro';
+
+// Generate initial random color
+const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Random Color Generator" backgroundColor={initialColor}>
 	<main>
-		<h1 class="text-white">Hello World!</h1>
+		<ColorWidget currentColor={initialColor} />
 	</main>
 </Layout>
 

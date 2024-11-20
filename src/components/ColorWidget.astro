@@ -1,0 +1,56 @@
+---
+interface Props {
+  currentColor: string;
+}
+
+const { currentColor } = Astro.props;
+---
+
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/90 p-5 rounded-lg shadow-lg flex flex-col gap-4">
+  <button 
+    id="generateColor"
+    class="px-5 py-2.5 bg-gray-700 text-white font-bold rounded hover:bg-gray-800 transition-colors"
+  >
+    Generate New Color
+  </button>
+  <div class="flex items-center gap-3">
+    <span 
+      id="colorCode"
+      class="font-mono text-lg px-3 py-1.5 bg-gray-100 rounded"
+    >
+      {currentColor}
+    </span>
+    <button 
+      id="copyColor"
+      class="px-4 py-1.5 bg-gray-700 text-white font-bold rounded hover:bg-gray-800 transition-colors"
+    >
+      Copy
+    </button>
+  </div>
+</div>
+
+<script>
+  function generateRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  document.getElementById('generateColor')?.addEventListener('click', () => {
+    const newColor = generateRandomColor();
+    document.body.style.backgroundColor = newColor;
+    const colorCode = document.getElementById('colorCode');
+    if (colorCode) colorCode.textContent = newColor;
+  });
+
+  document.getElementById('copyColor')?.addEventListener('click', async () => {
+    const colorCode = document.getElementById('colorCode')?.textContent;
+    if (colorCode) {
+      await navigator.clipboard.writeText(colorCode);
+      alert('Color code copied to clipboard!');
+    }
+  });
+</script> 
