@@ -23,10 +23,12 @@ const { currentColor } = Astro.props;
             </span>
             <button 
                 id="copyColor"
-                class="border border-slate-300 rounded-md text-slate-900 text-base p-1 hover:bg-slate-300"
+                class="relative border border-slate-300 rounded-md text-slate-900 text-base p-1 hover:bg-slate-300 group"
                 >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path>
-                </svg>
+                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                    Copier le code
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
             </button>
         </div>
     </div>
@@ -36,6 +38,14 @@ const { currentColor } = Astro.props;
     >
         Générer une autre couleur
     </button>
+</div>
+
+<!-- Add toast element -->
+<div 
+    id="toast" 
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none"
+>
+    Couleur copiée !
 </div>
 
 <script>
@@ -59,7 +69,15 @@ const { currentColor } = Astro.props;
     const colorCode = document.getElementById('colorCode')?.textContent;
     if (colorCode) {
       await navigator.clipboard.writeText(colorCode);
-      alert('Color code copied to clipboard!');
+      
+      // Show toast
+      const toast = document.getElementById('toast');
+      if (toast) {
+        toast.classList.remove('opacity-0');
+        setTimeout(() => {
+          toast.classList.add('opacity-0');
+        }, 2000);
+      }
     }
   });
 </script> 
