@@ -6,7 +6,7 @@ import ColorWidget from '../components/ColorWidget.astro';
 const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
 ---
 
-<Layout title="Random Color Generator">
+<Layout title="Générateur de couleur aléatoire">
 	<main>
 		<section id="colorSection" style={`background-color: ${initialColor}`} class="flex min-h-screen font-sans">
 			<div class="flex flex-1 items-center justify-start pl-24">
@@ -14,8 +14,26 @@ const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padSt
 			</div>
 			<div class="flex flex-1"></div>
 		</section>
-		<section class="min-h-screen font-sans">
-			Text
+		<section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
+			<span class="text-4xl text-slate-900 font-bold leading-normal">
+				Un outil simple pour générer une couleur aléatoire.
+			</span>
+			<div>
+				<h2 class="text-slate-900 font-semibold text-2xl mb-4">
+					Qu'est-ce qu'un générateur de couleur aléatoire ?
+				</h2>
+				<p class="text-slate-600 font-normal text-base leading-">
+					Un générateur de couleur aléatoire est un outil qui permet de générer une couleur aléatoire à la demande, compatible avec les navigateurs sur ordinateur et mobile. Le but de cette application est de vous aider à trouver une couleur au hasard et de copier son code hexadécimal pour l'utiliser comme vous le souhaitez.
+				</p>
+			</div>
+			<div>
+				<h2 class="text-slate-900 font-semibold text-2xl mb-4">
+					Comment utiliser le générateur de couleur aléatoire ?
+				</h2>
+				<p class="text-slate-600 font-normal text-base leading-">
+					Pour utiliser le générateur de couleur aléatoire, vous pouvez soit actualiser la page, soit cliquer sur le bouton pour générer une nouvelle couleur. Une fois la couleur affichée, vous pouvez copier son code hexadécimal pour l'utiliser dans vos projets ou ailleurs.
+				</p>
+			</div>
 		</section>
 	</main>
 </Layout>
