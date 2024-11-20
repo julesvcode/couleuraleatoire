@@ -7,14 +7,31 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="fr" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
 	<title>{title}</title>
+	<meta name="title" content="Générateur de couleur aléatoire">
     <meta name="description" content="Un outil simple pour générer une couleur aléatoire, rien de plus." />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+	<!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://couleuraleatoire.netlify.app/">
+    <meta property="og:title" content="Générateur de couleur aléatoire">
+    <meta property="og:description" content="Un outil simple pour générer une couleur aléatoire, rien de plus.">
+    <meta property="og:image" content="https://couleuraleatoire.netlify.app/og-banner.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://couleuraleatoire.netlify.app/">
+    <meta property="twitter:title" content="Générateur de couleur aléatoire">
+    <meta property="twitter:description" content="Un outil simple pour générer une couleur aléatoire, rien de plus.">
+    <meta property="twitter:image" content="https://couleuraleatoire.netlify.app/og-banner.jpg">
+    
+	<!-- Analytics -->
     
   </head>
   <body>
