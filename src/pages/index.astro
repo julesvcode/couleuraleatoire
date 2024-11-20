@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ColorWidget from '../components/ColorWidget.astro';
+import Footer from '../components/Footer.astro';
 
 // Generate initial random color
 const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
@@ -35,6 +36,7 @@ const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padSt
 				</p>
 			</div>
 		</section>
+		<Footer />
 	</main>
 </Layout>
 
