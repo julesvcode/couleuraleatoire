@@ -6,7 +6,7 @@ interface Props {
 const { currentColor } = Astro.props;
 ---
 
-<div class="max-w-80 w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-6">
+<div class="max-w-80 w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
     <h1 class="text-3xl font-bold">Couleur aléatoire</h1>
     <div class="flex flex-col gap-1">
         <span 
@@ -32,12 +32,15 @@ const { currentColor } = Astro.props;
             </button>
         </div>
     </div>
-    <button 
-        id="generateColor"
-        class="bg-slate-900 text-slate-100 font-semibold rounded p-2 hover:bg-opacity-90 transition-colors"
-    >
-        Générer une autre couleur
-    </button>
+    <div class="flex flex-col gap-1">
+        <button 
+            id="generateColor"
+            class="bg-slate-900 text-slate-100 font-semibold rounded p-2 hover:bg-opacity-90 transition-colors"
+        >
+            Générer une autre couleur
+        </button>
+        <small class="text-slate-500 italic">Astuce : Appuyez sur la barre d'espace pour générer une nouvelle couleur.</small>
+    </div>
 </div>
 
 <!-- Add toast element -->
@@ -58,11 +61,22 @@ const { currentColor } = Astro.props;
     return color;
   }
 
-  document.getElementById('generateColor')?.addEventListener('click', () => {
+  function updateColor() {
     const newColor = generateRandomColor();
     document.getElementById('colorSection')!.style.backgroundColor = newColor;
     const colorCode = document.getElementById('colorCode');
     if (colorCode) colorCode.textContent = newColor;
+  }
+
+  // Add event listener for the button
+  document.getElementById('generateColor')?.addEventListener('click', updateColor);
+
+  // Add event listener for spacebar
+  document.addEventListener('keydown', (event) => {
+    if (event.code === 'Space' && !event.repeat && !(event.target as Element).matches('input, textarea')) {
+      event.preventDefault(); // Prevent page scrolling
+      updateColor();
+    }
   });
 
   document.getElementById('copyColor')?.addEventListener('click', async () => {
