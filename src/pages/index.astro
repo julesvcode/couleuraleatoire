@@ -9,11 +9,11 @@ const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padSt
 
 <Layout title="Générateur de couleur aléatoire">
 	<main>
-		<section id="colorSection" style={`background-color: ${initialColor}`} class="flex min-h-screen font-sans">
-			<div class="flex flex-1 items-center justify-start pl-24">
+		<section id="colorSection" style={`background-color: ${initialColor}`} class="flex flex-col md:flex-row min-h-screen font-sans">
+			<div class="flex flex-1 order-2 md:order-1 items-center justify-center md:justify-start md:pl-24">
 				<ColorWidget currentColor={initialColor} />
 			</div>
-			<div class="flex flex-1"></div>
+			<div class="order-1 md:order-2 flex flex-1"></div>
 		</section>
 		<section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
 			<span class="text-4xl text-slate-900 font-bold leading-normal">
