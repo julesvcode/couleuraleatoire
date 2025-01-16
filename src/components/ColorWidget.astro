@@ -7,7 +7,10 @@ const { currentColor } = Astro.props;
 ---
 
 <div class="max-w-80 w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
-    <h1 class="text-3xl font-bold">Couleur aléatoire</h1>
+    <div>
+      <h1 class="text-2xl font-bold mb-4">Générateur de couleur aléatoire</h1>
+      <p class="text-base font-regular">Générez une couleur aléatoire en un clic:</p>
+    </div>
     <div class="flex flex-col gap-1">
         <span 
             class="text-xs text-zinc-600"
@@ -35,11 +38,11 @@ const { currentColor } = Astro.props;
     <div class="flex flex-col gap-1">
         <button 
             id="generateColor"
-            class="bg-slate-900 text-slate-100 font-semibold rounded p-2 hover:bg-opacity-90 transition-colors"
+            class="bg-slate-900 text-slate-100 font-semibold text-sm rounded p-2 hover:bg-opacity-90 transition-colors"
         >
-            Générer une autre couleur
+            Générer une autre couleur aléatoire
         </button>
-        <small class="text-slate-500 italic">Astuce : Appuyez sur la barre d'espace pour générer une nouvelle couleur.</small>
+        <small class="text-slate-500 italic">Astuce : Appuyez sur la barre d'espace pour générer une nouvelle couleur au pif.</small>
     </div>
 </div>
 
