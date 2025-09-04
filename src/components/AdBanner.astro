@@ -1,0 +1,66 @@
+---
+
+import { Image } from "astro:assets";
+
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  description: string;
+  link: string;
+  imageUrl?: ImageMetadata;
+}
+
+const { description, link, imageUrl } = Astro.props;
+
+// Client-side script for banner management
+const bannerScript = `
+  function closeBanner() {
+    const banner = document.getElementById('ad-banner');
+    banner.classList.add('opacity-0');
+    setTimeout(() => {
+      banner.style.display = 'none';
+    }, 300);
+    // Store the closed state in localStorage with a timestamp
+    localStorage.setItem('adBannerClosed', Date.now().toString());
+  }
+
+  // Check if banner was closed within the last 24 hours
+  const lastClosed = localStorage.getItem('adBannerClosed');
+  if (lastClosed) {
+    const hoursSinceClosed = (Date.now() - parseInt(lastClosed)) / (1000 * 60 * 60);
+    if (hoursSinceClosed < 24) {
+      document.getElementById('ad-banner').style.display = 'none';
+    }
+  }
+`;
+---
+
+<div
+  id="ad-banner"
+  class="fixed bottom-6 right-6 z-50 w-80 h-32 bg-zinc-50 rounded-lg shadow-lg border border-zinc-200 transition-opacity duration-300"
+>
+  <button
+    onclick="closeBanner()"
+    class="absolute -top-3 -right-3 bg-zinc-50 text-zinc-600 border border-zinc-200 rounded-full w-6 h-6 flex items-center justify-center hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
+    aria-label="Close banner"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <a href={link} class="w-full h-full flex gap-3 p-3.5 hover:opacity-90 transition-opacity" target="_blank">
+    {imageUrl && (
+      <Image
+        src={imageUrl}
+        alt={description}
+        width={128}
+        height={96}
+        class="w-32 h-26 aspect-video rounded-md border border-zinc-100"
+      />
+    )}
+    <p class="text-zinc-700 text-sm flex-grow-1 p-0">{description}</p>
+  </a>
+</div>
+
+<script set:html={bannerScript} />

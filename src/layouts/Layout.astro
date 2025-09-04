@@ -1,4 +1,8 @@
 ---
+
+import AdBanner from "../components/AdBanner.astro";
+import framerBanner from "../assets/framer_ad.png";
+
 interface Props {
 	title: string;
 }
@@ -41,5 +45,10 @@ const { title } = Astro.props;
   </head>
   <body>
     <slot />
+    <AdBanner
+      description="Publiez votre site web en quelques minutes avec Framer."
+      link="/go/framer"
+      imageUrl={framerBanner}
+    />
   </body>
 </html>
