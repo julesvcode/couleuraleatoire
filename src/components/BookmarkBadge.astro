@@ -1,0 +1,133 @@
+<div
+  id="bookmarkBadge"
+  class="fixed top-6 left-1/2 -translate-x-1/2 z-30 opacity-0 -translate-y-2 pointer-events-none transition-all duration-500 ease-out"
+  role="status"
+  aria-live="polite"
+>
+  <div class="flex items-center gap-2.5 px-2 py-2 rounded-lg bg-white/95 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/5">
+    <div id="bookmarkDesktop" class="hidden items-center gap-2.5">
+      <div class="flex items-center gap-1.5">
+        <kbd id="bookmarkModifier" class="bookmark-kbd bookmark-kbd-modifier min-w-[2.5rem]">⌘</kbd>
+        <span class="text-slate-400 text-xs font-medium select-none" aria-hidden="true">+</span>
+        <kbd class="bookmark-kbd min-w-[2rem]">D</kbd>
+      </div>
+      <span class="text-sm font-medium text-slate-700 whitespace-nowrap">
+        Ajoutez-nous à vos favoris
+      </span>
+    </div>
+
+    <div id="bookmarkMobile" class="hidden items-center gap-2.5">
+      <span class="text-sm font-medium text-slate-700 whitespace-nowrap">
+        Ajoutez cette page à vos favoris
+      </span>
+    </div>
+
+    <button
+      id="bookmarkDismiss"
+      type="button"
+      class="shrink-0 flex items-center justify-center w-8 h-8 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+      aria-label="Masquer"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+        <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .bookmark-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    padding: 0 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    color: rgb(51 65 85);
+    background: linear-gradient(to bottom, rgb(248 250 252), rgb(226 232 240));
+    border: 1px solid rgb(203 213 225);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.8) inset,
+      0 2px 0 0 rgb(148 163 184 / 0.35);
+  }
+
+  .bookmark-kbd-modifier {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'bookmarkBadgeDismissed';
+
+  function isMobileDevice() {
+    return window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1024;
+  }
+
+  function isMac() {
+    return /Mac/i.test(navigator.userAgent);
+  }
+
+  function showBadge() {
+    const badge = document.getElementById('bookmarkBadge');
+    if (!badge || localStorage.getItem(STORAGE_KEY)) return;
+
+    badge.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
+    badge.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+  }
+
+  function hideBadge(persist = false) {
+    const badge = document.getElementById('bookmarkBadge');
+    if (!badge) return;
+
+    badge.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+    badge.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+    if (persist) {
+      setTimeout(() => badge.remove(), 500);
+    }
+  }
+
+  function initBookmarkBadge() {
+    if (localStorage.getItem(STORAGE_KEY)) return;
+
+    const desktop = document.getElementById('bookmarkDesktop');
+    const mobile = document.getElementById('bookmarkMobile');
+    const modifier = document.getElementById('bookmarkModifier');
+
+    if (isMobileDevice()) {
+      mobile?.classList.replace('hidden', 'flex');
+    } else {
+      desktop?.classList.replace('hidden', 'flex');
+      if (modifier && !isMac()) {
+        modifier.textContent = 'Ctrl';
+        modifier.classList.remove('bookmark-kbd-modifier');
+        modifier.classList.add('min-w-[3rem]');
+      }
+    }
+
+    const colorSection = document.getElementById('colorSection');
+    if (colorSection) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) showBadge();
+          else hideBadge();
+        },
+        { threshold: 0.15 }
+      );
+      observer.observe(colorSection);
+    } else {
+      showBadge();
+    }
+
+    document.getElementById('bookmarkDismiss')?.addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEY, '1');
+      hideBadge(true);
+    });
+  }
+
+  initBookmarkBadge();
+</script>

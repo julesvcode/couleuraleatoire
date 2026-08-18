@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ColorWidget from '../components/ColorWidget.astro';
 import Footer from '../components/Footer.astro';
+import BookmarkBadge from '../components/BookmarkBadge.astro';
 
 // Generate initial random color
 const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
@@ -15,6 +16,7 @@ const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padSt
 			</div>
 			<div class="order-1 md:order-2 flex flex-1"></div>
 		</section>
+		<BookmarkBadge />
 		<section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
 			<span class="text-4xl text-slate-900 font-bold leading-normal">
 				Un outil simple pour générer une couleur aléatoire.
