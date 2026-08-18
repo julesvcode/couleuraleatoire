@@ -4,41 +4,101 @@ interface Props {
 }
 
 const { currentColor } = Astro.props;
+
+function hexToRgb(hex: string): string {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return '';
+  const r = parseInt(result[1], 16);
+  const g = parseInt(result[2], 16);
+  const b = parseInt(result[3], 16);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function hexToHsl(hex: string): string {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return '';
+  let r = parseInt(result[1], 16) / 255;
+  let g = parseInt(result[2], 16) / 255;
+  let b = parseInt(result[3], 16) / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+      case g: h = ((b - r) / d + 2) / 6; break;
+      case b: h = ((r - g) / d + 4) / 6; break;
+    }
+  }
+
+  return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+}
+
+const currentRgb = hexToRgb(currentColor);
+const currentHsl = hexToHsl(currentColor);
 ---
 
-<div class="max-w-80 w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
+<div class="max-w-sm w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
     <div>
       <h1 class="text-2xl font-bold mb-4">Générateur de couleur aléatoire</h1>
       <p class="text-base font-regular">Générez une couleur aléatoire en un clic:</p>
     </div>
-    <div class="flex flex-col gap-1">
-        <span 
-            class="text-xs text-zinc-600"
-            >
-            HEX code:
-        </span>
-        <div class="flex items-center gap-2">
-            <span 
-                id="colorCode"
-                class="text-lg"
+    <div class="flex flex-col gap-3 bg-white/70 rounded-lg p-4 border border-slate-200">
+        <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Codes couleur</span>
+        <div class="flex flex-col gap-2.5">
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-zinc-500 w-8 shrink-0">HEX</span>
+                <span id="colorCode" class="text-sm font-mono flex-1 min-w-0 truncate">{currentColor}</span>
+                <button
+                    data-copy-target="colorCode"
+                    class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1 hover:bg-slate-200 group"
+                    aria-label="Copier le code HEX"
                 >
-                {currentColor}
-            </span>
-            <button 
-                id="copyColor"
-                class="relative border border-slate-300 rounded-md text-slate-900 text-base p-1 hover:bg-slate-300 group"
+                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                        Copier
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-zinc-500 w-8 shrink-0">RGB</span>
+                <span id="colorCodeRgb" class="text-sm font-mono flex-1 min-w-0 truncate">{currentRgb}</span>
+                <button
+                    data-copy-target="colorCodeRgb"
+                    class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1 hover:bg-slate-200 group"
+                    aria-label="Copier le code RGB"
                 >
-                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-                    Copier le code
-                </span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
-            </button>
+                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                        Copier
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-zinc-500 w-8 shrink-0">HSL</span>
+                <span id="colorCodeHsl" class="text-sm font-mono flex-1 min-w-0 truncate">{currentHsl}</span>
+                <button
+                    data-copy-target="colorCodeHsl"
+                    class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1 hover:bg-slate-200 group"
+                    aria-label="Copier le code HSL"
+                >
+                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                        Copier
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+                </button>
+            </div>
         </div>
     </div>
     <div class="flex flex-col gap-1">
         <button 
             id="generateColor"
-            class="bg-slate-900 text-slate-100 font-semibold text-sm rounded p-2 hover:bg-opacity-90 transition-colors"
+            class="bg-slate-900 text-slate-100 font-semibold text-sm rounded py-3 px-2 hover:bg-opacity-90 transition-colors"
         >
             Générer une autre couleur aléatoire
         </button>
@@ -46,15 +106,48 @@ const { currentColor } = Astro.props;
     </div>
 </div>
 
-<!-- Add toast element -->
 <div 
     id="toast" 
     class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none"
 >
-    Couleur copiée !
+    Code copié !
 </div>
 
 <script>
+  function hexToRgb(hex: string): string {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!result) return '';
+    const r = parseInt(result[1], 16);
+    const g = parseInt(result[2], 16);
+    const b = parseInt(result[3], 16);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function hexToHsl(hex: string): string {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!result) return '';
+    let r = parseInt(result[1], 16) / 255;
+    let g = parseInt(result[2], 16) / 255;
+    let b = parseInt(result[3], 16) / 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h = 0;
+    let s = 0;
+    const l = (max + min) / 2;
+
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+
+    return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+  }
+
   function generateRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -64,37 +157,48 @@ const { currentColor } = Astro.props;
     return color;
   }
 
+  function updateColorCodes(hex: string) {
+    const colorCode = document.getElementById('colorCode');
+    const colorCodeRgb = document.getElementById('colorCodeRgb');
+    const colorCodeHsl = document.getElementById('colorCodeHsl');
+    if (colorCode) colorCode.textContent = hex;
+    if (colorCodeRgb) colorCodeRgb.textContent = hexToRgb(hex);
+    if (colorCodeHsl) colorCodeHsl.textContent = hexToHsl(hex);
+  }
+
   function updateColor() {
     const newColor = generateRandomColor();
     document.getElementById('colorSection')!.style.backgroundColor = newColor;
-    const colorCode = document.getElementById('colorCode');
-    if (colorCode) colorCode.textContent = newColor;
+    updateColorCodes(newColor);
   }
 
-  // Add event listener for the button
+  function showToast() {
+    const toast = document.getElementById('toast');
+    if (toast) {
+      toast.classList.remove('opacity-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+      }, 2000);
+    }
+  }
+
   document.getElementById('generateColor')?.addEventListener('click', updateColor);
 
-  // Add event listener for spacebar
   document.addEventListener('keydown', (event) => {
     if (event.code === 'Space' && !event.repeat && !(event.target as Element).matches('input, textarea')) {
-      event.preventDefault(); // Prevent page scrolling
+      event.preventDefault();
       updateColor();
     }
   });
 
-  document.getElementById('copyColor')?.addEventListener('click', async () => {
-    const colorCode = document.getElementById('colorCode')?.textContent;
-    if (colorCode) {
-      await navigator.clipboard.writeText(colorCode);
-      
-      // Show toast
-      const toast = document.getElementById('toast');
-      if (toast) {
-        toast.classList.remove('opacity-0');
-        setTimeout(() => {
-          toast.classList.add('opacity-0');
-        }, 2000);
+  document.querySelectorAll('.copy-btn').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const targetId = button.getAttribute('data-copy-target');
+      const text = targetId ? document.getElementById(targetId)?.textContent : null;
+      if (text) {
+        await navigator.clipboard.writeText(text);
+        showToast();
       }
-    }
+    });
   });
-</script> 
+</script>
