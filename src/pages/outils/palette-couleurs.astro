@@ -1,0 +1,136 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PaletteWidget from '../../components/PaletteWidget.astro';
+import Footer from '../../components/Footer.astro';
+import ToolNav from '../../components/ToolNav.astro';
+
+const initialColors = ['#E63946', '#F1FAEE', '#A8DADC', '#457B9D', '#1D3557'];
+---
+
+<Layout
+  title="Générateur de palette de couleurs gratuit | 5 couleurs"
+  description="Générez une palette de 5 couleurs en un clic. Verrouillez celles que vous gardez, puis copiez toute la palette en HEX, RGB, HSL ou CMYK."
+  canonicalPath="/outils/palette-couleurs/"
+  markdownPath="/outils/palette-couleurs.md"
+>
+  <main>
+    <section id="colorSection" class="relative flex flex-col min-h-screen font-sans">
+      <div class="flex-1 min-h-[38vh] md:absolute md:inset-0 md:min-h-0 grid grid-cols-5" aria-hidden="true">
+        {initialColors.map((hex) => (
+          <div class="palette-stripe" style={`background-color: ${hex}`}></div>
+        ))}
+      </div>
+      <div class="relative z-10 flex items-center justify-center px-4 py-4 md:absolute md:inset-0 md:justify-start md:px-0 md:pl-16 lg:pl-24 md:py-8">
+        <PaletteWidget colors={initialColors} />
+      </div>
+    </section>
+    <ToolNav />
+    <section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
+      <span class="text-4xl text-slate-900 font-bold leading-normal">
+        Un générateur de palette, cinq couleurs, rien de plus.
+      </span>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Comment générer une palette de couleurs ?
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Cliquez sur <strong>Générer une nouvelle palette</strong>. Cinq couleurs s'affichent.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Choisissez ensuite le format : HEX, RGB, HSL ou CMYK. Toute la palette passe dans ce format, pour copier une couleur ou les cinq d'un coup.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal">
+          Verrouillez celles que vous voulez garder, puis générez à nouveau : seules les couleurs libres changent.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Comment ça marche ?
+        </h2>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          1. Générez une palette
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Cliquez sur le bouton ou appuyez sur la barre d'espace.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          2. Verrouillez ce que vous gardez
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Cliquez sur le cadenas à côté d'une couleur pour la figer.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          3. Choisissez le format et copiez
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Passez de HEX à RGB, HSL ou CMYK, puis copiez une couleur ou toute la palette dans ce format.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Palette, pas couleur unique
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Cet outil sert à obtenir plusieurs couleurs qui fonctionnent ensemble. Si vous n'avez besoin que d'une couleur HEX, RGB ou HSL, utilisez le
+          <a href="/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de couleur aléatoire</a>.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal">
+          Pour une seule couleur, avec HEX, RGB, HSL et CMYK en même temps, utilisez le
+          <a href="/outils/convertisseur-couleur/" class="text-slate-900 font-medium underline hover:text-slate-700">convertisseur de couleur</a>.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          À quoi sert un générateur de palette ?
+        </h2>
+        <ul class="text-slate-600 text-base leading-normal flex flex-col gap-2 mb-4">
+          <li>🎨 Trouver une base de couleurs pour un design</li>
+          <li>💻 Choisir les couleurs d'un site web</li>
+          <li>🖌️ Préparer une illustration ou une présentation</li>
+          <li>🧪 Explorer des combinaisons sans partir d'une feuille blanche</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Questions fréquentes
+        </h2>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Comment générer une palette de couleurs en ligne ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Cliquez sur « Générer une nouvelle palette ». Cinq couleurs s'affichent tout de suite, à copier un par un ou tous ensemble, en HEX, RGB, HSL ou CMYK.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Puis-je copier la palette en RGB, HSL ou CMYK ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui. Choisissez le format au-dessus des couleurs. Copier une couleur ou toute la palette utilise ce format.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Puis-je garder certaines couleurs ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui. Verrouillez une couleur pour qu'elle ne change pas quand vous générez le reste de la palette.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Quelle est la différence avec le générateur de couleur aléatoire ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Le générateur de la page d'accueil donne une seule couleur, avec HEX, RGB et HSL. Ici, vous obtenez cinq couleurs d'un coup, pour composer une palette.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Est-ce que ça fonctionne sur mobile ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui, directement dans le navigateur, sans inscription.
+        </p>
+      </div>
+      <div>
+        <span class="text-slate-900 italic font-semibold text-2xl mb-4">
+          Cinq couleurs, un cadenas, un bouton. Une palette, tout de suite.
+        </span>
+      </div>
+    </section>
+    <Footer />
+  </main>
+</Layout>

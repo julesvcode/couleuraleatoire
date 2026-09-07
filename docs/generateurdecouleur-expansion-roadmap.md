@@ -949,12 +949,12 @@ Still worth adding:
 Build first because existing GSC already validates the intent:
 
 1. [x] `/choisir-une-couleur-au-hasard/`
-2. [ ] `/tirage-au-sort-couleur/`
+2. [x] `/tirage-au-sort-couleur/`
 
 ## Phase 3 — Core colour utilities
 
-3. [ ] `/palette-couleurs/`
-4. [ ] `/convertisseur-couleur/`
+3. [x] `/palette-couleurs/`
+4. [x] `/convertisseur-couleur/`
 5. [ ] `/generateur-degrade/`
 6. [ ] `/contraste-couleurs/`
 

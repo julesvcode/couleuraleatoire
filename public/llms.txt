@@ -2,9 +2,11 @@
 
 > Outils de couleur gratuits, en français. Pas de compte, pas d'API, tout se passe dans le navigateur.
 
-Trois outils distincts, à ne pas confondre :
+Cinq outils distincts, à ne pas confondre :
 
 - La page d'accueil génère une couleur précise parmi 16 777 216 couleurs HEX, avec codes HEX, RGB et HSL à copier.
+- « Générateur de palette de couleurs » propose 5 couleurs, avec verrouillage et copie de toute la palette en HEX, RGB, HSL ou CMYK.
+- « Convertisseur de couleur » traduit une couleur entre HEX, RGB, HSL et CMYK, sans pages séparées du type HEX vers RGB.
 - « Choisir une couleur au hasard » tire un nom de couleur simple (rouge, bleu, vert, jaune, etc.), pas un code.
 - « Tirage au sort de couleur » pioche dans une liste fournie par l'utilisateur, avec option de retirer la couleur tirée.
 
@@ -13,6 +15,8 @@ Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement lai
 ## Outils
 
 - [Générateur de couleur aléatoire](https://generateurdecouleur.com/index.md): Génère une couleur HEX au hasard et affiche HEX, RGB et HSL.
+- [Générateur de palette de couleurs](https://generateurdecouleur.com/outils/palette-couleurs.md): Génère une palette de 5 couleurs, avec verrouillage et copie en HEX, RGB, HSL ou CMYK.
+- [Convertisseur de couleur](https://generateurdecouleur.com/outils/convertisseur-couleur.md): Convertit une couleur entre HEX, RGB, HSL et CMYK.
 - [Choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md): Tire une couleur nommée parmi rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris et marron.
 - [Tirage au sort de couleur](https://generateurdecouleur.com/outils/tirage-au-sort-couleur.md): Pioche une couleur dans une liste personnalisée, comme un dé virtuel.
 
@@ -20,6 +24,8 @@ Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement lai
 
 - [Tous les outils](https://generateurdecouleur.com/outils/index.md)
 - [Page d'accueil HTML](https://generateurdecouleur.com/)
+- [Palette (HTML)](https://generateurdecouleur.com/outils/palette-couleurs/)
+- [Convertisseur (HTML)](https://generateurdecouleur.com/outils/convertisseur-couleur/)
 - [Choisir une couleur au hasard (HTML)](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard/)
 - [Tirage au sort de couleur (HTML)](https://generateurdecouleur.com/outils/tirage-au-sort-couleur/)
 - [Sitemap](https://generateurdecouleur.com/sitemap-index.xml)

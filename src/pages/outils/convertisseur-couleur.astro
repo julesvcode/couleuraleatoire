@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ConverterWidget from '../../components/ConverterWidget.astro';
+import Footer from '../../components/Footer.astro';
+import ToolNav from '../../components/ToolNav.astro';
+
+const initialColor = '#FF5733';
+---
+
+<Layout
+  title="Convertisseur de couleur HEX, RGB, HSL et CMYK"
+  description="Convertissez une couleur entre HEX, RGB, HSL et CMYK. Un seul champ à modifier, tous les formats se mettent à jour. Copiez le code dont vous avez besoin."
+  canonicalPath="/outils/convertisseur-couleur/"
+  markdownPath="/outils/convertisseur-couleur.md"
+>
+  <main>
+    <section
+      id="colorSection"
+      style={`background-color: ${initialColor}`}
+      class="flex flex-col md:flex-row min-h-screen font-sans"
+    >
+      <div class="flex flex-1 order-2 md:order-1 items-center justify-center px-4 md:px-0 md:justify-start md:pl-16 lg:pl-24 py-8">
+        <ConverterWidget currentColor={initialColor} />
+      </div>
+      <div class="order-1 md:order-2 flex flex-1"></div>
+    </section>
+    <ToolNav />
+    <section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
+      <span class="text-4xl text-slate-900 font-bold leading-normal">
+        Un convertisseur de couleur, quatre formats, un seul endroit.
+      </span>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Comment convertir une couleur ?
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Collez un code HEX, RGB, HSL ou CMYK, ou choisissez une couleur. Les autres formats se mettent à jour tout seuls.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal">
+          Copiez ensuite le format dont vous avez besoin, pour du CSS, un outil de design ou de l'impression.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          HEX, RGB, HSL ou CMYK ?
+        </h2>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          HEX
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Le format le plus courant sur le web. Par exemple <code class="font-mono text-slate-800">#FF5733</code>.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          RGB
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Rouge, vert et bleu, de 0 à 255. Par exemple <code class="font-mono text-slate-800">rgb(255, 87, 51)</code>.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          HSL
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Teinte, saturation et luminosité. Pratique pour ajuster une couleur sans tout recalculer.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          CMYK
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Cyan, magenta, jaune et noir. Utilisé surtout pour l'impression. La conversion depuis l'écran reste une approximation.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Convertir, pas générer
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Cet outil part d'une couleur que vous connaissez déjà. Pour en obtenir une au hasard, utilisez le
+          <a href="/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de couleur aléatoire</a>.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal">
+          Pour plusieurs couleurs d'un coup, utilisez le
+          <a href="/outils/palette-couleurs/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de palette de couleurs</a>.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Questions fréquentes
+        </h2>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Comment convertir du HEX en RGB ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Collez le code HEX dans le champ HEX. Le RGB, le HSL et le CMYK se mettent à jour automatiquement.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Puis-je convertir du RGB vers HEX ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui. Entrez un RGB, par exemple <code class="font-mono text-slate-800">rgb(255, 87, 51)</code> ou <code class="font-mono text-slate-800">255, 87, 51</code>. Les autres formats suivent.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Le CMYK est-il exact pour l'impression ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          C'est une conversion standard depuis RGB, utile pour se faire une idée. Un fichier d'impression professionnel peut encore ajuster les valeurs.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Est-ce que ça fonctionne sur mobile ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui, directement dans le navigateur, sans inscription.
+        </p>
+      </div>
+      <div>
+        <span class="text-slate-900 italic font-semibold text-2xl mb-4">
+          Un code entre, les autres sortent. C'est tout.
+        </span>
+      </div>
+    </section>
+    <Footer />
+  </main>
+</Layout>

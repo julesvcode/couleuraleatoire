@@ -7,7 +7,7 @@ import { TOOLS } from '../../data/tools';
 
 <Layout
   title="Outils de couleur gratuits | Générateur de couleur"
-  description="Tous les outils de couleur : générateur aléatoire, couleur au hasard et tirage au sort. Simples, rapides et gratuits, sans inscription."
+  description="Tous les outils de couleur : générateur aléatoire, palette, convertisseur, couleur au hasard et tirage au sort. Simples, rapides et gratuits, sans inscription."
   canonicalPath="/outils/"
   markdownPath="/outils/index.md"
 >
@@ -19,7 +19,7 @@ import { TOOLS } from '../../data/tools';
           Outils de couleur
         </h1>
         <p class="text-slate-600 text-base leading-normal">
-          Des outils simples, rapides et gratuits pour générer, choisir ou tirer une couleur au sort.
+          Des outils simples, rapides et gratuits pour générer, convertir, choisir ou tirer une couleur au sort.
         </p>
       </div>
       <ul class="flex flex-col gap-3">
@@ -27,9 +27,12 @@ import { TOOLS } from '../../data/tools';
           <li>
             <a
               href={tool.href}
-              class="block rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 hover:border-slate-300 hover:bg-white transition-colors text-slate-900 font-semibold"
+              class="block rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 hover:border-slate-300 hover:bg-white transition-colors"
             >
-              {tool.label}
+              <span class="block text-slate-900 font-semibold">{tool.label}</span>
+              <span class="block mt-1 text-sm font-normal text-slate-600 leading-normal">
+                {tool.description}
+              </span>
             </a>
           </li>
         ))}

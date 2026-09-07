@@ -1,0 +1,229 @@
+---
+interface Props {
+  colors: string[];
+}
+
+const { colors } = Astro.props;
+---
+
+<div
+  id="paletteRoot"
+  class="max-w-md w-full bg-slate-100 text-slate-900 font-sans p-4 md:p-6 rounded-lg border border-slate-300 shadow-lg flex flex-col gap-3 md:gap-6"
+  data-colors={colors.join(',')}
+>
+  <div>
+    <h1 class="text-lg md:text-2xl font-bold md:mb-4">Générateur de palette de couleurs</h1>
+    <p class="hidden md:block text-base">Générez 5 couleurs, verrouillez celles que vous gardez, puis copiez la palette en HEX, RGB, HSL ou CMYK.</p>
+  </div>
+
+  <div
+    class="grid grid-cols-4 gap-1"
+    role="group"
+    aria-label="Format des couleurs"
+  >
+    {(['hex', 'rgb', 'hsl', 'cmyk'] as const).map((format) => (
+      <button
+        type="button"
+        class:list={[
+          'format-btn rounded-md border px-1 py-1.5 md:py-2 text-xs font-semibold uppercase tracking-wide transition-colors',
+          format === 'hex'
+            ? 'bg-slate-900 text-white border-slate-900'
+            : 'bg-white text-slate-700 border-slate-300',
+        ]}
+        data-format={format}
+        aria-pressed={format === 'hex' ? 'true' : 'false'}
+      >
+        {format.toUpperCase()}
+      </button>
+    ))}
+  </div>
+
+  <div class="flex flex-col gap-1.5 md:gap-2 bg-white/70 rounded-lg p-2 md:p-3 border border-slate-200">
+    {colors.map((hex, index) => (
+      <div class="palette-row flex items-center gap-2" data-index={index}>
+        <span
+          class="palette-swatch w-8 h-8 md:w-10 md:h-10 rounded-md border border-slate-300 shrink-0"
+          style={`background-color: ${hex}`}
+        ></span>
+        <span class="palette-value text-xs sm:text-sm font-mono flex-1 min-w-0 truncate" title={hex}>{hex}</span>
+        <button
+          type="button"
+          class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1.5 hover:bg-slate-200 group"
+          data-copy-index={index}
+          aria-label={`Copier ${hex}`}
+        >
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+            Copier
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+        </button>
+        <button
+          type="button"
+          class="lock-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1.5 hover:bg-slate-200"
+          data-lock-index={index}
+          aria-pressed="false"
+          aria-label={`Verrouiller ${hex}`}
+        >
+          <svg class="lock-open" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M208,80H96V56a32,32,0,0,1,32-32c15.16,0,28.11,10.47,31.39,24.8a8,8,0,1,0,15.5-4C169.31,24.92,150.42,8,128,8A48.05,48.05,0,0,0,80,56V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80Zm0,128H48V96H208Z"></path></svg>
+          <svg class="lock-closed hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208Z"></path></svg>
+        </button>
+      </div>
+    ))}
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <button
+      id="generatePalette"
+      type="button"
+      class="bg-slate-900 text-slate-100 font-semibold text-sm rounded py-2.5 md:py-3 px-2 hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      Générer une nouvelle palette
+    </button>
+    <button
+      id="copyPalette"
+      type="button"
+      class="border border-slate-300 bg-white text-slate-700 font-medium text-sm rounded py-2.5 px-2 hover:bg-slate-50 transition-colors"
+    >
+      Copier toutes les couleurs
+    </button>
+    <small class="hidden md:block text-slate-500 italic">Astuce : Appuyez sur Espace pour générer une nouvelle palette.</small>
+  </div>
+</div>
+
+<div
+  id="toast"
+  class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none"
+>
+  Copié !
+</div>
+
+<script>
+  import { generatePalette, hexToCmyk, hexToHsl, hexToRgb } from '../utils/color';
+
+  type PaletteFormat = 'hex' | 'rgb' | 'hsl' | 'cmyk';
+
+  const root = document.getElementById('paletteRoot');
+  const generateButton = document.getElementById('generatePalette') as HTMLButtonElement | null;
+  const copyAllButton = document.getElementById('copyPalette');
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('.palette-row'));
+  const stripes = Array.from(document.querySelectorAll<HTMLElement>('.palette-stripe'));
+  const formatButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.format-btn'));
+
+  let colors: string[] = root?.dataset.colors ? root.dataset.colors.split(',') : [];
+  let locked = colors.map(() => false);
+  let format: PaletteFormat = 'hex';
+
+  function formatColor(hex: string, currentFormat: PaletteFormat): string {
+    switch (currentFormat) {
+      case 'rgb':
+        return hexToRgb(hex);
+      case 'hsl':
+        return hexToHsl(hex);
+      case 'cmyk':
+        return hexToCmyk(hex);
+      default:
+        return hex;
+    }
+  }
+
+  function showToast(message = 'Copié !') {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.remove('opacity-0');
+    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+  }
+
+  function render() {
+    rows.forEach((row, index) => {
+      const hex = colors[index];
+      if (!hex) return;
+      const value = formatColor(hex, format);
+      const swatch = row.querySelector<HTMLElement>('.palette-swatch');
+      const valueLabel = row.querySelector<HTMLElement>('.palette-value');
+      const copyBtn = row.querySelector<HTMLButtonElement>('.copy-btn');
+      const lockBtn = row.querySelector<HTMLButtonElement>('.lock-btn');
+      const openIcon = row.querySelector('.lock-open');
+      const closedIcon = row.querySelector('.lock-closed');
+      const isLocked = locked[index];
+
+      if (swatch) swatch.style.backgroundColor = hex;
+      if (valueLabel) {
+        valueLabel.textContent = value;
+        valueLabel.title = value;
+      }
+      if (copyBtn) copyBtn.setAttribute('aria-label', `Copier ${value}`);
+      if (lockBtn) {
+        lockBtn.setAttribute('aria-pressed', String(isLocked));
+        lockBtn.setAttribute('aria-label', isLocked ? `Déverrouiller ${hex}` : `Verrouiller ${hex}`);
+        lockBtn.classList.toggle('bg-slate-900', isLocked);
+        lockBtn.classList.toggle('text-white', isLocked);
+        lockBtn.classList.toggle('border-slate-900', isLocked);
+        lockBtn.classList.toggle('hover:bg-slate-200', !isLocked);
+        lockBtn.classList.toggle('hover:bg-slate-800', isLocked);
+      }
+      openIcon?.classList.toggle('hidden', isLocked);
+      closedIcon?.classList.toggle('hidden', !isLocked);
+      stripes[index]?.style.setProperty('background-color', hex);
+    });
+
+    formatButtons.forEach((button) => {
+      const isActive = button.dataset.format === format;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('bg-slate-900', isActive);
+      button.classList.toggle('text-white', isActive);
+      button.classList.toggle('border-slate-900', isActive);
+      button.classList.toggle('bg-white', !isActive);
+      button.classList.toggle('text-slate-700', !isActive);
+      button.classList.toggle('border-slate-300', !isActive);
+    });
+
+    if (generateButton) generateButton.disabled = locked.every(Boolean);
+  }
+
+  function regenerate() {
+    if (locked.every(Boolean)) return;
+    colors = generatePalette(colors, locked);
+    render();
+  }
+
+  async function copyText(text: string, message?: string) {
+    await navigator.clipboard.writeText(text);
+    showToast(message);
+  }
+
+  generateButton?.addEventListener('click', regenerate);
+  copyAllButton?.addEventListener('click', () => {
+    copyText(colors.map((hex) => formatColor(hex, format)).join('\n'), 'Palette copiée !');
+  });
+
+  formatButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = button.dataset.format;
+      if (next === 'hex' || next === 'rgb' || next === 'hsl' || next === 'cmyk') {
+        format = next;
+        render();
+      }
+    });
+  });
+
+  rows.forEach((row, index) => {
+    row.querySelector('.copy-btn')?.addEventListener('click', () => {
+      const hex = colors[index];
+      if (hex) copyText(formatColor(hex, format));
+    });
+    row.querySelector('.lock-btn')?.addEventListener('click', () => {
+      locked[index] = !locked[index];
+      render();
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code !== 'Space' || event.repeat) return;
+    if (event.target instanceof HTMLElement && event.target.matches('input, textarea, button, summary')) return;
+    event.preventDefault();
+    regenerate();
+  });
+
+  render();
+</script>

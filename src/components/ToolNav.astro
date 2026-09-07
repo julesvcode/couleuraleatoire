@@ -35,7 +35,7 @@ const currentLabel = current?.label ?? 'Tous les outils';
         <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
       </svg>
     </summary>
-    <ul class="absolute top-full left-0 right-0 mt-2 p-1 rounded-lg bg-white/95 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/5">
+    <ul class="absolute top-full left-0 right-0 mt-2 p-1 max-h-[70vh] overflow-y-auto rounded-lg bg-white/95 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/5">
       {TOOLS.map((tool) => (
         <li>
           <a

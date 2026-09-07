@@ -5,7 +5,17 @@ export type Rgb = {
 };
 
 export function parseHex(hex: string): Rgb | null {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+  const trimmed = hex.trim();
+  const short = /^#?([a-f\d])([a-f\d])([a-f\d])$/i.exec(trimmed);
+  if (short) {
+    return {
+      r: parseInt(short[1] + short[1], 16),
+      g: parseInt(short[2] + short[2], 16),
+      b: parseInt(short[3] + short[3], 16),
+    };
+  }
+
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(trimmed);
   if (!result) return null;
 
   return {
@@ -15,15 +25,42 @@ export function parseHex(hex: string): Rgb | null {
   };
 }
 
+export function rgbToHex(rgb: Rgb): string {
+  const toHex = (channel: number) =>
+    Math.max(0, Math.min(255, Math.round(channel)))
+      .toString(16)
+      .padStart(2, '0');
+
+  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`.toUpperCase();
+}
+
+export function formatHex(hex: string): string {
+  const rgb = parseHex(hex);
+  return rgb ? rgbToHex(rgb) : '';
+}
+
 export function hexToRgb(hex: string): string {
   const rgb = parseHex(hex);
   if (!rgb) return '';
   return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 }
 
-export function hexToHsl(hex: string): string {
+export type Hsl = {
+  h: number;
+  s: number;
+  l: number;
+};
+
+export type Cmyk = {
+  c: number;
+  m: number;
+  y: number;
+  k: number;
+};
+
+export function hexToHslChannels(hex: string): Hsl | null {
   const rgb = parseHex(hex);
-  if (!rgb) return '';
+  if (!rgb) return null;
 
   const r = rgb.r / 255;
   const g = rgb.g / 255;
@@ -50,7 +87,147 @@ export function hexToHsl(hex: string): string {
     }
   }
 
-  return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100),
+  };
+}
+
+export function hexToHsl(hex: string): string {
+  const hsl = hexToHslChannels(hex);
+  if (!hsl) return '';
+  return `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+}
+
+export function hslToRgb(hsl: Hsl): Rgb {
+  const h = (((hsl.h % 360) + 360) % 360) / 360;
+  const s = Math.max(0, Math.min(100, hsl.s)) / 100;
+  const l = Math.max(0, Math.min(100, hsl.l)) / 100;
+
+  if (s === 0) {
+    const channel = Math.round(l * 255);
+    return { r: channel, g: channel, b: channel };
+  }
+
+  const hueToRgb = (p: number, q: number, t: number) => {
+    let tone = t;
+    if (tone < 0) tone += 1;
+    if (tone > 1) tone -= 1;
+    if (tone < 1 / 6) return p + (q - p) * 6 * tone;
+    if (tone < 1 / 2) return q;
+    if (tone < 2 / 3) return p + (q - p) * (2 / 3 - tone) * 6;
+    return p;
+  };
+
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+
+  return {
+    r: Math.round(hueToRgb(p, q, h + 1 / 3) * 255),
+    g: Math.round(hueToRgb(p, q, h) * 255),
+    b: Math.round(hueToRgb(p, q, h - 1 / 3) * 255),
+  };
+}
+
+export function hslToHex(hsl: Hsl): string {
+  return rgbToHex(hslToRgb(hsl));
+}
+
+export function rgbToCmyk(rgb: Rgb): Cmyk {
+  if (rgb.r === 0 && rgb.g === 0 && rgb.b === 0) {
+    return { c: 0, m: 0, y: 0, k: 100 };
+  }
+
+  const r = rgb.r / 255;
+  const g = rgb.g / 255;
+  const b = rgb.b / 255;
+  const k = 1 - Math.max(r, g, b);
+
+  return {
+    c: Math.round(((1 - r - k) / (1 - k)) * 100),
+    m: Math.round(((1 - g - k) / (1 - k)) * 100),
+    y: Math.round(((1 - b - k) / (1 - k)) * 100),
+    k: Math.round(k * 100),
+  };
+}
+
+export function cmykToRgb(cmyk: Cmyk): Rgb {
+  const c = Math.max(0, Math.min(100, cmyk.c)) / 100;
+  const m = Math.max(0, Math.min(100, cmyk.m)) / 100;
+  const y = Math.max(0, Math.min(100, cmyk.y)) / 100;
+  const k = Math.max(0, Math.min(100, cmyk.k)) / 100;
+
+  return {
+    r: Math.round(255 * (1 - c) * (1 - k)),
+    g: Math.round(255 * (1 - m) * (1 - k)),
+    b: Math.round(255 * (1 - y) * (1 - k)),
+  };
+}
+
+export function hexToCmyk(hex: string): string {
+  const rgb = parseHex(hex);
+  if (!rgb) return '';
+  const cmyk = rgbToCmyk(rgb);
+  return `${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%`;
+}
+
+export function parseRgb(value: string): Rgb | null {
+  const match = value.trim().match(/^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/i)
+    ?? value.trim().match(/^(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$/);
+  if (!match) return null;
+
+  const r = Number(match[1]);
+  const g = Number(match[2]);
+  const b = Number(match[3]);
+  if ([r, g, b].some((channel) => channel > 255)) return null;
+  return { r, g, b };
+}
+
+export function parseHsl(value: string): Hsl | null {
+  const match = value.trim().match(/^hsla?\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%?\s*,\s*(\d+(?:\.\d+)?)%?/i)
+    ?? value.trim().match(/^(-?\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%?\s*,\s*(\d+(?:\.\d+)?)%?\s*$/);
+  if (!match) return null;
+
+  return {
+    h: Number(match[1]),
+    s: Number(match[2]),
+    l: Number(match[3]),
+  };
+}
+
+export function parseCmyk(value: string): Cmyk | null {
+  const normalized = value.trim().replace(/^cmyk\(/i, '').replace(/\)\s*$/, '');
+  const match = normalized.match(/^(\d+(?:\.\d+)?)%?\s*,\s*(\d+(?:\.\d+)?)%?\s*,\s*(\d+(?:\.\d+)?)%?\s*,\s*(\d+(?:\.\d+)?)%?\s*$/);
+  if (!match) return null;
+
+  const c = Number(match[1]);
+  const m = Number(match[2]);
+  const y = Number(match[3]);
+  const k = Number(match[4]);
+  if ([c, m, y, k].some((channel) => channel > 100)) return null;
+  return { c, m, y, k };
+}
+
+export function randomHex(): string {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+export function generatePalette(existing: string[], locked: boolean[]): string[] {
+  const baseHue = Math.random() * 360;
+  return existing.map((hex, index) => {
+    if (locked[index]) return hex;
+    return hslToHex({
+      h: (baseHue + index * 22) % 360,
+      s: Math.round(48 + ((index * 11) % 32) + Math.random() * 12),
+      l: Math.round(28 + ((index * 15) % 42) + Math.random() * 8),
+    });
+  });
 }
 
 export function contrastingTextColor(hex: string): '#0F172A' | '#F8FAFC' {

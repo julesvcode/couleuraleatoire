@@ -1,0 +1,243 @@
+---
+import { hexToCmyk, hexToHsl, hexToRgb } from '../utils/color';
+
+interface Props {
+  currentColor: string;
+}
+
+const { currentColor } = Astro.props;
+
+const currentRgb = hexToRgb(currentColor);
+const currentHsl = hexToHsl(currentColor);
+const currentCmyk = hexToCmyk(currentColor);
+const pickerValue = currentColor.toLowerCase();
+---
+
+<div class="max-w-md w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-300 shadow-lg flex flex-col gap-6">
+  <div>
+    <h1 class="text-2xl font-bold mb-4">Convertisseur de couleur HEX, RGB, HSL et CMYK</h1>
+    <p class="text-base">Modifiez un format : les autres se mettent à jour. Copiez ensuite le code dont vous avez besoin.</p>
+  </div>
+
+  <label class="flex items-center gap-3 cursor-pointer">
+    <span class="relative w-12 h-12 rounded-lg overflow-hidden border border-slate-300 shrink-0">
+      <span id="convPreview" class="absolute inset-0" style={`background-color: ${currentColor}`}></span>
+      <input
+        id="convPicker"
+        type="color"
+        value={pickerValue}
+        class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+        aria-label="Choisir une couleur"
+      />
+    </span>
+    <span class="text-sm text-slate-600">Cliquez pour choisir une couleur</span>
+  </label>
+
+  <div class="flex flex-col gap-3 bg-white/70 rounded-lg p-4 border border-slate-200">
+    <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Formats</span>
+    <div class="flex flex-col gap-3">
+      <div class="flex items-center gap-2">
+        <label for="convHex" class="text-xs font-medium text-zinc-500 w-10 shrink-0">HEX</label>
+        <input
+          id="convHex"
+          type="text"
+          spellcheck="false"
+          autocomplete="off"
+          value={currentColor}
+          class="flex-1 min-w-0 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-slate-400"
+        />
+        <button
+          type="button"
+          data-copy-target="convHex"
+          class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1.5 hover:bg-slate-200 group"
+          aria-label="Copier le code HEX"
+        >
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+            Copier
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+        </button>
+      </div>
+      <div class="flex items-center gap-2">
+        <label for="convRgb" class="text-xs font-medium text-zinc-500 w-10 shrink-0">RGB</label>
+        <input
+          id="convRgb"
+          type="text"
+          spellcheck="false"
+          autocomplete="off"
+          value={currentRgb}
+          class="flex-1 min-w-0 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-slate-400"
+        />
+        <button
+          type="button"
+          data-copy-target="convRgb"
+          class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1.5 hover:bg-slate-200 group"
+          aria-label="Copier le code RGB"
+        >
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+            Copier
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+        </button>
+      </div>
+      <div class="flex items-center gap-2">
+        <label for="convHsl" class="text-xs font-medium text-zinc-500 w-10 shrink-0">HSL</label>
+        <input
+          id="convHsl"
+          type="text"
+          spellcheck="false"
+          autocomplete="off"
+          value={currentHsl}
+          class="flex-1 min-w-0 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-slate-400"
+        />
+        <button
+          type="button"
+          data-copy-target="convHsl"
+          class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1.5 hover:bg-slate-200 group"
+          aria-label="Copier le code HSL"
+        >
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+            Copier
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+        </button>
+      </div>
+      <div class="flex items-center gap-2">
+        <label for="convCmyk" class="text-xs font-medium text-zinc-500 w-10 shrink-0">CMYK</label>
+        <input
+          id="convCmyk"
+          type="text"
+          spellcheck="false"
+          autocomplete="off"
+          value={currentCmyk}
+          class="flex-1 min-w-0 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-slate-400"
+        />
+        <button
+          type="button"
+          data-copy-target="convCmyk"
+          class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1.5 hover:bg-slate-200 group"
+          aria-label="Copier le code CMYK"
+        >
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+            Copier
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  id="toast"
+  class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none"
+>
+  Code copié !
+</div>
+
+<script>
+  import {
+    cmykToRgb,
+    formatHex,
+    hexToCmyk,
+    hexToHsl,
+    hexToRgb,
+    hslToHex,
+    parseCmyk,
+    parseHex,
+    parseHsl,
+    parseRgb,
+    rgbToHex,
+  } from '../utils/color';
+
+  type Field = 'hex' | 'rgb' | 'hsl' | 'cmyk' | 'picker';
+
+  const hexInput = document.getElementById('convHex') as HTMLInputElement | null;
+  const rgbInput = document.getElementById('convRgb') as HTMLInputElement | null;
+  const hslInput = document.getElementById('convHsl') as HTMLInputElement | null;
+  const cmykInput = document.getElementById('convCmyk') as HTMLInputElement | null;
+  const picker = document.getElementById('convPicker') as HTMLInputElement | null;
+  const preview = document.getElementById('convPreview');
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.classList.remove('opacity-0');
+    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+  }
+
+  function hexDigits(value: string): string {
+    return value.trim().replace(/^#/, '');
+  }
+
+  function applyHex(hex: string, except?: Field) {
+    const formatted = formatHex(hex);
+    if (!formatted) return;
+
+    const section = document.getElementById('colorSection');
+    if (section) section.style.backgroundColor = formatted;
+    if (preview) preview.style.backgroundColor = formatted;
+    if (picker && except !== 'picker') picker.value = formatted.toLowerCase();
+    if (hexInput && except !== 'hex') hexInput.value = formatted;
+    if (rgbInput && except !== 'rgb') rgbInput.value = hexToRgb(formatted);
+    if (hslInput && except !== 'hsl') hslInput.value = hexToHsl(formatted);
+    if (cmykInput && except !== 'cmyk') cmykInput.value = hexToCmyk(formatted);
+  }
+
+  hexInput?.addEventListener('input', () => {
+    if (hexDigits(hexInput.value).length !== 6) return;
+    const rgb = parseHex(hexInput.value);
+    if (rgb) applyHex(rgbToHex(rgb), 'hex');
+  });
+
+  hexInput?.addEventListener('blur', () => {
+    const rgb = parseHex(hexInput.value);
+    if (rgb) applyHex(rgbToHex(rgb));
+  });
+
+  rgbInput?.addEventListener('input', () => {
+    const rgb = parseRgb(rgbInput.value);
+    if (rgb) applyHex(rgbToHex(rgb), 'rgb');
+  });
+
+  rgbInput?.addEventListener('blur', () => {
+    const rgb = parseRgb(rgbInput.value);
+    if (rgb) applyHex(rgbToHex(rgb));
+  });
+
+  hslInput?.addEventListener('input', () => {
+    const hsl = parseHsl(hslInput.value);
+    if (hsl) applyHex(hslToHex(hsl), 'hsl');
+  });
+
+  hslInput?.addEventListener('blur', () => {
+    const hsl = parseHsl(hslInput.value);
+    if (hsl) applyHex(hslToHex(hsl));
+  });
+
+  cmykInput?.addEventListener('input', () => {
+    const cmyk = parseCmyk(cmykInput.value);
+    if (cmyk) applyHex(rgbToHex(cmykToRgb(cmyk)), 'cmyk');
+  });
+
+  cmykInput?.addEventListener('blur', () => {
+    const cmyk = parseCmyk(cmykInput.value);
+    if (cmyk) applyHex(rgbToHex(cmykToRgb(cmyk)));
+  });
+
+  picker?.addEventListener('input', () => {
+    applyHex(picker.value, 'picker');
+  });
+
+  document.querySelectorAll('.copy-btn').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const targetId = button.getAttribute('data-copy-target');
+      const field = targetId ? document.getElementById(targetId) : null;
+      const text = field instanceof HTMLInputElement ? field.value : field?.textContent;
+      if (text) {
+        await navigator.clipboard.writeText(text);
+        showToast();
+      }
+    });
+  });
+</script>
