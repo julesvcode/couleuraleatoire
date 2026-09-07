@@ -1,16 +1,47 @@
-<footer class="max-w-xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-start md:justify-between gap-4 text-sm py-4 px-4 mb-4 text-slate-600">
-    <div>
-        © {new Date().getFullYear()} - Générateur de couleur
+---
+const year = new Date().getFullYear();
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const tools = [
+  { href: '/', label: 'Couleur aléatoire', match: '/' },
+  { href: '/choisir-une-couleur-au-hasard/', label: 'Couleur au hasard', match: '/choisir-une-couleur-au-hasard' },
+];
+---
+
+<footer class="mt-8 border-t border-slate-200 bg-slate-50 font-sans">
+  <div class="max-w-xl mx-auto px-4 pt-12 pb-40 sm:pb-12">
+    <div class="flex flex-col gap-10 sm:flex-row sm:justify-between sm:gap-12">
+      <div class="max-w-xs">
+        <p class="text-slate-900 font-semibold">Générateur de couleur</p>
+        <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+          Des outils simples, rapides et gratuits pour générer et choisir des couleurs.
+        </p>
+      </div>
+      <nav aria-label="Outils">
+        <p class="text-xs font-medium uppercase tracking-wide text-slate-400 mb-3">Outils</p>
+        <ul class="flex flex-col gap-2.5 text-sm">
+          {tools.map((tool) => (
+            <li>
+              <a
+                href={tool.href}
+                class:list={[
+                  'transition-colors hover:text-slate-900',
+                  path === tool.match ? 'text-slate-900 font-medium' : 'text-slate-600',
+                ]}
+                aria-current={path === tool.match ? 'page' : undefined}
+              >
+                {tool.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
-    <nav class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <a href="/" class="hover:text-slate-900 underline">
-            Couleur aléatoire
-        </a>
-        <a href="/choisir-une-couleur-au-hasard/" class="hover:text-slate-900 underline">
-            Couleur au hasard
-        </a>
-        <a href="#colorSection" class="hover:text-slate-900 underline">
-            Retour en haut ↑
-        </a>
-    </nav>
+    <div class="mt-10 pt-6 border-t border-slate-200 flex items-center justify-between gap-4 text-xs text-slate-400">
+      <p>© {year} Générateur de couleur</p>
+      <a href="#colorSection" class="hover:text-slate-700 transition-colors">
+        Retour en haut
+      </a>
+    </div>
+  </div>
 </footer>
