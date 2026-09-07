@@ -1,0 +1,8 @@
+# Allow search engines and AI crawlers to index the site.
+User-agent: *
+Allow: /
+
+# Thin affiliate redirect, not a content page.
+Disallow: /go/
+
+Sitemap: https://generateurdecouleur.com/sitemap-index.xml

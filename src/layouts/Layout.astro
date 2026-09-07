@@ -6,9 +6,10 @@ interface Props {
   title: string;
   description: string;
   canonicalPath?: string;
+  markdownPath?: string;
 }
 
-const { title, description, canonicalPath = '/' } = Astro.props;
+const { title, description, canonicalPath = '/', markdownPath } = Astro.props;
 const origin = 'https://generateurdecouleur.com';
 const canonicalUrl =
   canonicalPath === '/'
@@ -22,6 +23,10 @@ const canonicalUrl =
     <meta charset="UTF-8" />
     <title>{title}</title>
     <link rel="canonical" href={canonicalUrl} />
+    {markdownPath && (
+      <link rel="alternate" type="text/markdown" href={`${origin}${markdownPath}`} />
+    )}
+    <link rel="describedby" href={`${origin}/llms.txt`} />
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
