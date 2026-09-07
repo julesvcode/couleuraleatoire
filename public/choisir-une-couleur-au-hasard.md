@@ -17,3 +17,5 @@ Rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris, marron.
 ## Ce que cet outil n'est pas
 
 Ce n'est pas un générateur de code HEX / RGB / HSL. Pour une couleur précise à copier dans du CSS ou un outil de design, utiliser [le générateur de couleur aléatoire](https://generateurdecouleur.com/index.md).
+
+Pour piocher dans votre propre liste (classe, jeu, équipes), utiliser [le tirage au sort de couleur](https://generateurdecouleur.com/tirage-au-sort-couleur.md).

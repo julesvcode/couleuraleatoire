@@ -1,3 +1,5 @@
+import { foldName, hexFromString } from '../utils/color';
+
 export type NamedColor = {
   name: string;
   slug: string;
@@ -19,6 +21,22 @@ export const NAMED_COLORS: NamedColor[] = [
 ];
 
 export const IDLE_BACKGROUND = '#E2E8F0';
+
+export const DEFAULT_DRAW_NAMES = ['Rouge', 'Bleu', 'Vert', 'Jaune', 'Rose'];
+export const DEFAULT_DRAW_LIST = DEFAULT_DRAW_NAMES.join('\n');
+
+export function parseColorList(text: string): string[] {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+export function appearanceForLabel(label: string): { hex: string } {
+  const folded = foldName(label);
+  const known = NAMED_COLORS.find((color) => foldName(color.name) === folded);
+  return { hex: known?.hex ?? hexFromString(label) };
+}
 
 export function pickNamedColor(excludeSlug?: string): NamedColor {
   const pool = excludeSlug

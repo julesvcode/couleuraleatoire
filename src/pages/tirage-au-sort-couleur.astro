@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ColorDrawWidget from '../components/ColorDrawWidget.astro';
+import Footer from '../components/Footer.astro';
+import { IDLE_BACKGROUND } from '../data/namedColors';
+---
+
+<Layout
+  title="Tirage au sort de couleur en ligne | Dé virtuel"
+  description="Faites un tirage au sort de couleur en ligne. Entrez votre liste, tirez une couleur au hasard et retirez-la si besoin. Idéal pour la classe, les jeux et les ateliers."
+  canonicalPath="/tirage-au-sort-couleur/"
+  markdownPath="/tirage-au-sort-couleur.md"
+>
+  <main>
+    <section
+      id="colorSection"
+      style={`background-color: ${IDLE_BACKGROUND}`}
+      class="flex flex-col md:flex-row min-h-screen font-sans transition-colors duration-300"
+    >
+      <div class="flex flex-1 order-2 md:order-1 items-center justify-center md:justify-start md:pl-16 lg:pl-24 py-8">
+        <ColorDrawWidget />
+      </div>
+      <div class="order-1 md:order-2 flex flex-1 items-center justify-center px-6 py-16 md:py-0">
+        <p
+          id="heroColorName"
+          class="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight uppercase text-center break-words"
+        ></p>
+      </div>
+    </section>
+    <section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
+      <span class="text-4xl text-slate-900 font-bold leading-normal">
+        Un tirage au sort de couleur, avec votre propre liste.
+      </span>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Comment faire un tirage au sort de couleur ?
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Écrivez vos couleurs, une par ligne, puis cliquez sur <strong>Tirer une couleur</strong>. Le hasard en choisit une dans la liste.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal">
+          Cochez <strong>Retirer la couleur après le tirage</strong> pour qu'elle ne ressorte plus, comme un vrai tirage au sort ou un dé virtuel de couleur.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Comment ça marche ?
+        </h2>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          1. Préparez votre liste
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Gardez les couleurs proposées, ou écrivez les vôtres : équipes, joueurs, cartes, ateliers…
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          2. Tirez une couleur
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Cliquez sur le bouton. Le résultat s'affiche en grand.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          3. Continuez ou réinitialisez
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Piochez de nouveau jusqu'à la fin de la liste, ou réinitialisez pour recommencer.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Tirage au sort, pas générateur HEX
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Cet outil sert à piocher dans une liste : un tirage au sort de couleur en ligne, pour la classe, un jeu de société, un atelier ou un défi.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-2">
+          Si vous voulez seulement rouge, bleu, vert… sans préparer de liste, utilisez
+          <a href="/choisir-une-couleur-au-hasard/" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>.
+        </p>
+        <p class="text-slate-600 font-normal text-base leading-normal">
+          Si vous avez besoin d'un code HEX, RGB ou HSL, utilisez le
+          <a href="/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de couleur aléatoire</a>.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          À quoi sert un tirage au sort de couleur ?
+        </h2>
+        <ul class="text-slate-600 text-base leading-normal flex flex-col gap-2 mb-4">
+          <li>🧑‍🏫 Répartir des groupes en classe</li>
+          <li>🎮 Choisir qui commence dans un jeu</li>
+          <li>🎲 Remplacer un dé virtuel de couleur</li>
+          <li>🖌️ Tirer une couleur pour un atelier ou un défi</li>
+          <li>👥 Attribuer une équipe ou un rôle au hasard</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Questions fréquentes
+        </h2>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Comment faire un tirage au sort de couleur en ligne ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Entrez vos couleurs dans la liste, puis cliquez sur « Tirer une couleur ». Une couleur est choisie au hasard parmi celles que vous avez écrites.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Puis-je utiliser mes propres couleurs ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui. Une couleur par ligne. Vous pouvez écrire des noms classiques, des équipes, ou n'importe quel libellé.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Quelle est la différence avec choisir une couleur au hasard ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          « Choisir une couleur au hasard » pioche toujours dans la même liste de couleurs simples. Ici, vous fournissez la liste, et vous pouvez retirer une couleur une fois tirée.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Est-ce un dé virtuel de couleur ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui, c'est le même usage : remplacer un dé de couleurs physiques. La différence, c'est que vous choisissez les faces du dé.
+        </p>
+        <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
+          Est-ce que ça fonctionne sur mobile ?
+        </h3>
+        <p class="text-slate-600 text-base leading-normal font-normal mb-4">
+          Oui, directement dans le navigateur, sans inscription.
+        </p>
+      </div>
+      <div>
+        <span class="text-slate-900 italic font-semibold text-2xl mb-4">
+          Liste, bouton, résultat. Un tirage au sort de couleur, rien de plus.
+        </span>
+      </div>
+    </section>
+    <Footer />
+  </main>
+</Layout>

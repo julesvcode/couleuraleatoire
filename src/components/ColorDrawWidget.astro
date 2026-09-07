@@ -1,0 +1,181 @@
+---
+import { DEFAULT_DRAW_LIST } from '../data/namedColors';
+---
+
+<div class="max-w-md w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-300 shadow-lg flex flex-col gap-6">
+  <div>
+    <h1 class="text-2xl font-bold mb-4">Tirage au sort de couleur</h1>
+    <p class="text-base">Entrez vos couleurs, une par ligne, puis tirez-en une au sort.</p>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="drawList" class="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+      Liste de couleurs
+    </label>
+    <textarea
+      id="drawList"
+      rows="7"
+      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm leading-relaxed resize-y min-h-[9rem] focus:outline-none focus:ring-2 focus:ring-slate-400"
+    >{DEFAULT_DRAW_LIST}</textarea>
+  </div>
+
+  <label class="flex items-start gap-2.5 text-sm text-slate-700 cursor-pointer">
+    <input
+      id="removeAfterDraw"
+      type="checkbox"
+      checked
+      class="mt-0.5 rounded border-slate-300"
+    />
+    <span>Retirer la couleur après le tirage</span>
+  </label>
+
+  <div
+    id="drawResult"
+    class="hidden flex-col gap-2 bg-white/70 rounded-lg p-4 border border-slate-200"
+    aria-live="polite"
+  >
+    <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Résultat</span>
+    <div class="flex items-center gap-3">
+      <span id="drawSwatch" class="w-10 h-10 rounded-full border border-slate-300 shrink-0"></span>
+      <span id="drawName" class="text-2xl font-bold tracking-tight"></span>
+    </div>
+  </div>
+
+  <p id="drawError" class="hidden text-sm text-red-700" role="alert"></p>
+
+  <div class="flex flex-col gap-2">
+    <button
+      id="drawColor"
+      type="button"
+      class="bg-slate-900 text-slate-100 font-semibold text-sm rounded py-3 px-2 hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      Tirer une couleur
+    </button>
+    <button
+      id="resetDrawList"
+      type="button"
+      class="border border-slate-300 bg-white text-slate-700 font-medium text-sm rounded py-2.5 px-2 hover:bg-slate-50 transition-colors"
+    >
+      Réinitialiser la liste
+    </button>
+  </div>
+</div>
+
+<script>
+  import { appearanceForLabel, DEFAULT_DRAW_LIST, parseColorList } from '../data/namedColors';
+  import { contrastingTextColor } from '../utils/color';
+
+  const STORAGE_LIST = 'tirage-au-sort-couleur-list';
+  const STORAGE_REMOVE = 'tirage-au-sort-couleur-remove';
+
+  const textarea = document.getElementById('drawList') as HTMLTextAreaElement | null;
+  const removeToggle = document.getElementById('removeAfterDraw') as HTMLInputElement | null;
+  const drawButton = document.getElementById('drawColor') as HTMLButtonElement | null;
+  const resetButton = document.getElementById('resetDrawList');
+  const result = document.getElementById('drawResult');
+  const swatch = document.getElementById('drawSwatch');
+  const name = document.getElementById('drawName');
+  const error = document.getElementById('drawError');
+
+  function currentLines(): string[] {
+    return parseColorList(textarea?.value ?? '');
+  }
+
+  function persistList() {
+    if (textarea) localStorage.setItem(STORAGE_LIST, textarea.value);
+  }
+
+  function showError(message: string) {
+    if (!error) return;
+    error.textContent = message;
+    error.classList.remove('hidden');
+  }
+
+  function clearError() {
+    if (!error) return;
+    error.textContent = '';
+    error.classList.add('hidden');
+  }
+
+  function updateDrawButton() {
+    if (drawButton) drawButton.disabled = currentLines().length === 0;
+  }
+
+  function showDraw(label: string) {
+    const { hex } = appearanceForLabel(label);
+    const textColor = contrastingTextColor(hex);
+    const section = document.getElementById('colorSection');
+    const heroName = document.getElementById('heroColorName');
+
+    if (section) section.style.backgroundColor = hex;
+    if (heroName) {
+      heroName.textContent = label;
+      heroName.style.color = textColor;
+    }
+    if (swatch) swatch.style.backgroundColor = hex;
+    if (name) name.textContent = label;
+    if (result) {
+      result.classList.remove('hidden');
+      result.classList.add('flex');
+    }
+  }
+
+  function drawColor() {
+    const lines = currentLines();
+    if (lines.length === 0) {
+      showError('Ajoutez au moins une couleur dans la liste.');
+      updateDrawButton();
+      return;
+    }
+
+    clearError();
+    const index = Math.floor(Math.random() * lines.length);
+    const picked = lines[index];
+    if (!picked) return;
+
+    showDraw(picked);
+
+    if (removeToggle?.checked) {
+      lines.splice(index, 1);
+      if (textarea) textarea.value = lines.join('\n');
+      persistList();
+      if (lines.length === 0) {
+        showError('Plus de couleurs. Réinitialisez la liste ou ajoutez-en d\'autres.');
+      }
+    }
+
+    updateDrawButton();
+  }
+
+  function resetList() {
+    if (textarea) textarea.value = DEFAULT_DRAW_LIST;
+    persistList();
+    clearError();
+    updateDrawButton();
+  }
+
+  const savedList = localStorage.getItem(STORAGE_LIST);
+  if (textarea && savedList !== null) textarea.value = savedList;
+  if (removeToggle) removeToggle.checked = localStorage.getItem(STORAGE_REMOVE) !== 'false';
+  updateDrawButton();
+
+  textarea?.addEventListener('input', () => {
+    persistList();
+    clearError();
+    updateDrawButton();
+  });
+
+  removeToggle?.addEventListener('change', () => {
+    localStorage.setItem(STORAGE_REMOVE, removeToggle.checked ? 'true' : 'false');
+  });
+
+  drawButton?.addEventListener('click', drawColor);
+  resetButton?.addEventListener('click', resetList);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code !== 'Space' || event.repeat) return;
+    if (event.target instanceof HTMLElement && event.target.matches('input, textarea, button')) return;
+    event.preventDefault();
+    drawColor();
+  });
+</script>

@@ -2,10 +2,11 @@
 
 > Outils de couleur gratuits, en français. Pas de compte, pas d'API, tout se passe dans le navigateur.
 
-Deux outils distincts, à ne pas confondre :
+Trois outils distincts, à ne pas confondre :
 
 - La page d'accueil génère une couleur précise parmi 16 777 216 couleurs HEX, avec codes HEX, RGB et HSL à copier.
 - « Choisir une couleur au hasard » tire un nom de couleur simple (rouge, bleu, vert, jaune, etc.), pas un code.
+- « Tirage au sort de couleur » pioche dans une liste fournie par l'utilisateur, avec option de retirer la couleur tirée.
 
 Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement laisser le hasard décider.
 
@@ -13,9 +14,11 @@ Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement lai
 
 - [Générateur de couleur aléatoire](https://generateurdecouleur.com/index.md): Génère une couleur HEX au hasard et affiche HEX, RGB et HSL.
 - [Choisir une couleur au hasard](https://generateurdecouleur.com/choisir-une-couleur-au-hasard.md): Tire une couleur nommée parmi rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris et marron.
+- [Tirage au sort de couleur](https://generateurdecouleur.com/tirage-au-sort-couleur.md): Pioche une couleur dans une liste personnalisée, comme un dé virtuel.
 
 ## Optional
 
 - [Page d'accueil HTML](https://generateurdecouleur.com/)
 - [Choisir une couleur au hasard (HTML)](https://generateurdecouleur.com/choisir-une-couleur-au-hasard/)
+- [Tirage au sort de couleur (HTML)](https://generateurdecouleur.com/tirage-au-sort-couleur/)
 - [Sitemap](https://generateurdecouleur.com/sitemap-index.xml)

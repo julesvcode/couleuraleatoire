@@ -948,7 +948,7 @@ Still worth adding:
 
 Build first because existing GSC already validates the intent:
 
-1. [ ] `/choisir-une-couleur-au-hasard/`
+1. [x] `/choisir-une-couleur-au-hasard/`
 2. [ ] `/tirage-au-sort-couleur/`
 
 ## Phase 3 — Core colour utilities
