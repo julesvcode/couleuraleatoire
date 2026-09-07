@@ -13,12 +13,13 @@ Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement lai
 ## Outils
 
 - [Générateur de couleur aléatoire](https://generateurdecouleur.com/index.md): Génère une couleur HEX au hasard et affiche HEX, RGB et HSL.
-- [Choisir une couleur au hasard](https://generateurdecouleur.com/choisir-une-couleur-au-hasard.md): Tire une couleur nommée parmi rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris et marron.
-- [Tirage au sort de couleur](https://generateurdecouleur.com/tirage-au-sort-couleur.md): Pioche une couleur dans une liste personnalisée, comme un dé virtuel.
+- [Choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md): Tire une couleur nommée parmi rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris et marron.
+- [Tirage au sort de couleur](https://generateurdecouleur.com/outils/tirage-au-sort-couleur.md): Pioche une couleur dans une liste personnalisée, comme un dé virtuel.
 
 ## Optional
 
+- [Tous les outils](https://generateurdecouleur.com/outils/index.md)
 - [Page d'accueil HTML](https://generateurdecouleur.com/)
-- [Choisir une couleur au hasard (HTML)](https://generateurdecouleur.com/choisir-une-couleur-au-hasard/)
-- [Tirage au sort de couleur (HTML)](https://generateurdecouleur.com/tirage-au-sort-couleur/)
+- [Choisir une couleur au hasard (HTML)](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard/)
+- [Tirage au sort de couleur (HTML)](https://generateurdecouleur.com/outils/tirage-au-sort-couleur/)
 - [Sitemap](https://generateurdecouleur.com/sitemap-index.xml)

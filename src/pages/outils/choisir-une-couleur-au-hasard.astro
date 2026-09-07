@@ -1,8 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import NamedColorWidget from '../components/NamedColorWidget.astro';
-import Footer from '../components/Footer.astro';
-import { IDLE_BACKGROUND, NAMED_COLORS } from '../data/namedColors';
+import Layout from '../../layouts/Layout.astro';
+import NamedColorWidget from '../../components/NamedColorWidget.astro';
+import Footer from '../../components/Footer.astro';
+import ToolNav from '../../components/ToolNav.astro';
+import { IDLE_BACKGROUND, NAMED_COLORS } from '../../data/namedColors';
 
 const colorList = NAMED_COLORS.map((color) => color.name.toLowerCase()).join(', ');
 ---
@@ -10,8 +11,8 @@ const colorList = NAMED_COLORS.map((color) => color.name.toLowerCase()).join(', 
 <Layout
   title="Choisir une couleur au hasard | Rouge, bleu, vert…"
   description="Besoin de choisir une couleur au hasard ? Laissez le hasard décider entre rouge, bleu, vert, jaune et d'autres couleurs simples. Gratuit, instantané, sans inscription."
-  canonicalPath="/choisir-une-couleur-au-hasard/"
-  markdownPath="/choisir-une-couleur-au-hasard.md"
+  canonicalPath="/outils/choisir-une-couleur-au-hasard/"
+  markdownPath="/outils/choisir-une-couleur-au-hasard.md"
 >
   <main>
     <section
@@ -19,16 +20,17 @@ const colorList = NAMED_COLORS.map((color) => color.name.toLowerCase()).join(', 
       style={`background-color: ${IDLE_BACKGROUND}`}
       class="flex flex-col md:flex-row min-h-screen font-sans transition-colors duration-300"
     >
-      <div class="flex flex-1 order-2 md:order-1 items-center justify-center md:justify-start md:pl-24">
+      <div class="flex flex-1 order-2 md:order-1 items-center justify-center px-4 md:px-0 md:justify-start md:pl-24">
         <NamedColorWidget />
       </div>
-      <div class="order-1 md:order-2 flex flex-1 items-center justify-center px-6 py-16 md:py-0">
+      <div class="order-1 md:order-2 flex flex-1 items-center justify-center px-6 pt-24 pb-16 md:py-0">
         <p
           id="heroColorName"
           class="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight uppercase text-center break-words"
         ></p>
       </div>
     </section>
+    <ToolNav />
     <section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
       <span class="text-4xl text-slate-900 font-bold leading-normal">
         Un outil simple pour laisser le hasard choisir une couleur.
@@ -85,7 +87,7 @@ const colorList = NAMED_COLORS.map((color) => color.name.toLowerCase()).join(', 
         </h2>
         <ul class="text-slate-600 text-base leading-normal flex flex-col gap-2 mb-4">
           <li>🎲 Trancher quand personne ne se décide</li>
-          <li>🎮 Lancer un jeu, un défi ou un <a href="/tirage-au-sort-couleur/" class="text-slate-900 font-medium underline hover:text-slate-700">tirage au sort</a></li>
+          <li>🎮 Lancer un jeu, un défi ou un <a href="/outils/tirage-au-sort-couleur/" class="text-slate-900 font-medium underline hover:text-slate-700">tirage au sort</a></li>
           <li>🧑‍🏫 Choisir une couleur pour une activité en classe</li>
           <li>🖌️ Partir d'une couleur simple pour dessiner</li>
           <li>👕 Décider d'une couleur sans trop y penser</li>
@@ -112,7 +114,7 @@ const colorList = NAMED_COLORS.map((color) => color.name.toLowerCase()).join(', 
         </h3>
         <p class="text-slate-600 text-base leading-normal font-normal mb-4">
           Le générateur de la page d'accueil choisit parmi plus de 16 millions de couleurs et vous donne un code précis. Ici, le hasard choisit uniquement parmi des couleurs nommées, faciles à dire à voix haute. Pour piocher dans votre propre liste, utilisez le
-          <a href="/tirage-au-sort-couleur/" class="text-slate-900 font-medium underline hover:text-slate-700">tirage au sort de couleur</a>.
+          <a href="/outils/tirage-au-sort-couleur/" class="text-slate-900 font-medium underline hover:text-slate-700">tirage au sort de couleur</a>.
         </p>
         <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
           Est-ce que ça fonctionne sur mobile ?

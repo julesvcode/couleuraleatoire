@@ -1,12 +1,8 @@
 ---
-const year = new Date().getFullYear();
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+import { TOOLS, currentPath } from '../data/tools';
 
-const tools = [
-  { href: '/', label: 'Couleur aléatoire', match: '/' },
-  { href: '/choisir-une-couleur-au-hasard/', label: 'Couleur au hasard', match: '/choisir-une-couleur-au-hasard' },
-  { href: '/tirage-au-sort-couleur/', label: 'Tirage au sort', match: '/tirage-au-sort-couleur' },
-];
+const year = new Date().getFullYear();
+const path = currentPath(Astro.url.pathname);
 ---
 
 <footer class="mt-8 border-t border-slate-200 bg-slate-50 font-sans">
@@ -19,9 +15,11 @@ const tools = [
         </p>
       </div>
       <nav aria-label="Outils">
-        <p class="text-xs font-medium uppercase tracking-wide text-slate-400 mb-3">Outils</p>
+        <a href="/outils/" class="text-xs font-medium uppercase tracking-wide text-slate-400 mb-3 inline-block hover:text-slate-600">
+          Outils
+        </a>
         <ul class="flex flex-col gap-2.5 text-sm">
-          {tools.map((tool) => (
+          {TOOLS.map((tool) => (
             <li>
               <a
                 href={tool.href}
@@ -40,7 +38,7 @@ const tools = [
     </div>
     <div class="mt-10 pt-6 border-t border-slate-200 flex items-center justify-between gap-4 text-xs text-slate-400">
       <p>© {year} Générateur de couleur</p>
-      <a href="#colorSection" class="hover:text-slate-700 transition-colors">
+      <a href="#top" class="hover:text-slate-700 transition-colors">
         Retour en haut
       </a>
     </div>

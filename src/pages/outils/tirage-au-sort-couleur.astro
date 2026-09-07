@@ -1,15 +1,16 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ColorDrawWidget from '../components/ColorDrawWidget.astro';
-import Footer from '../components/Footer.astro';
-import { IDLE_BACKGROUND } from '../data/namedColors';
+import Layout from '../../layouts/Layout.astro';
+import ColorDrawWidget from '../../components/ColorDrawWidget.astro';
+import Footer from '../../components/Footer.astro';
+import ToolNav from '../../components/ToolNav.astro';
+import { IDLE_BACKGROUND } from '../../data/namedColors';
 ---
 
 <Layout
   title="Tirage au sort de couleur en ligne | Dé virtuel"
   description="Faites un tirage au sort de couleur en ligne. Entrez votre liste, tirez une couleur au hasard et retirez-la si besoin. Idéal pour la classe, les jeux et les ateliers."
-  canonicalPath="/tirage-au-sort-couleur/"
-  markdownPath="/tirage-au-sort-couleur.md"
+  canonicalPath="/outils/tirage-au-sort-couleur/"
+  markdownPath="/outils/tirage-au-sort-couleur.md"
 >
   <main>
     <section
@@ -17,16 +18,17 @@ import { IDLE_BACKGROUND } from '../data/namedColors';
       style={`background-color: ${IDLE_BACKGROUND}`}
       class="flex flex-col md:flex-row min-h-screen font-sans transition-colors duration-300"
     >
-      <div class="flex flex-1 order-2 md:order-1 items-center justify-center md:justify-start md:pl-16 lg:pl-24 py-8">
+      <div class="flex flex-1 order-2 md:order-1 items-center justify-center px-4 md:px-0 md:justify-start md:pl-16 lg:pl-24 py-8">
         <ColorDrawWidget />
       </div>
-      <div class="order-1 md:order-2 flex flex-1 items-center justify-center px-6 py-16 md:py-0">
+      <div class="order-1 md:order-2 flex flex-1 items-center justify-center px-6 pt-24 pb-16 md:py-0">
         <p
           id="heroColorName"
           class="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight uppercase text-center break-words"
         ></p>
       </div>
     </section>
+    <ToolNav />
     <section class="max-w-xl flex flex-col gap-8 my-0 mx-auto py-12 px-4 font-sans">
       <span class="text-4xl text-slate-900 font-bold leading-normal">
         Un tirage au sort de couleur, avec votre propre liste.
@@ -74,7 +76,7 @@ import { IDLE_BACKGROUND } from '../data/namedColors';
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal mb-2">
           Si vous voulez seulement rouge, bleu, vert… sans préparer de liste, utilisez
-          <a href="/choisir-une-couleur-au-hasard/" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>.
+          <a href="/outils/choisir-une-couleur-au-hasard/" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>.
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal">
           Si vous avez besoin d'un code HEX, RGB ou HSL, utilisez le

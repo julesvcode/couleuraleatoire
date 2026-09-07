@@ -1,6 +1,6 @@
 # Tirage au sort de couleur
 
-Outil gratuit en français : https://generateurdecouleur.com/tirage-au-sort-couleur/
+Outil gratuit en français : https://generateurdecouleur.com/outils/tirage-au-sort-couleur/
 
 Il pioche une couleur dans une liste fournie par l'utilisateur. Utile pour la classe, un jeu, un atelier, ou comme dé virtuel de couleur.
 
@@ -16,4 +16,4 @@ La liste est enregistrée localement dans le navigateur.
 ## Ce que cet outil n'est pas
 
 - Pas un générateur HEX : [générateur de couleur aléatoire](https://generateurdecouleur.com/index.md)
-- Pas un tirage dans une liste fixe de couleurs simples : [choisir une couleur au hasard](https://generateurdecouleur.com/choisir-une-couleur-au-hasard.md)
+- Pas un tirage dans une liste fixe de couleurs simples : [choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md)

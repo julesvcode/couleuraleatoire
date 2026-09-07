@@ -1,0 +1,87 @@
+---
+import { TOOLS, currentPath } from '../data/tools';
+
+const path = currentPath(Astro.url.pathname);
+const current = TOOLS.find((tool) => tool.match === path);
+const currentLabel = current?.label ?? 'Tous les outils';
+---
+
+<nav
+  class="fixed top-6 inset-x-4 z-40 flex justify-center"
+  aria-label="Choisir un outil"
+>
+  <details
+    id="toolNavDetails"
+    class="relative w-full max-w-sm"
+  >
+    <summary class="tool-nav-summary flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/95 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/5 cursor-pointer select-none">
+      <span class="text-xs font-medium uppercase tracking-wide text-slate-400 shrink-0">
+        Outils
+      </span>
+      <span class="w-px h-4 bg-slate-200 shrink-0" aria-hidden="true"></span>
+      <span class="flex-1 text-sm font-medium text-slate-900 truncate">
+        {currentLabel}
+      </span>
+      <svg
+        id="toolNavChevron"
+        class="shrink-0 text-slate-400 transition-transform duration-200"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 256 256"
+        aria-hidden="true"
+      >
+        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+      </svg>
+    </summary>
+    <ul class="absolute top-full left-0 right-0 mt-2 p-1 rounded-lg bg-white/95 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/5">
+      {TOOLS.map((tool) => (
+        <li>
+          <a
+            href={tool.href}
+            class:list={[
+              'block rounded-md px-3 py-3 text-sm font-medium transition-colors',
+              path === tool.match
+                ? 'bg-slate-900 text-white'
+                : 'text-slate-900 hover:bg-slate-100',
+            ]}
+            aria-current={path === tool.match ? 'page' : undefined}
+          >
+            {tool.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
+</nav>
+
+<style>
+  .tool-nav-summary {
+    list-style: none;
+  }
+
+  .tool-nav-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  #toolNavDetails[open] #toolNavChevron {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  const details = document.getElementById('toolNavDetails');
+
+  document.addEventListener('click', (event) => {
+    if (details instanceof HTMLDetailsElement && !details.contains(event.target as Node)) {
+      details.open = false;
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && details instanceof HTMLDetailsElement) {
+      details.open = false;
+    }
+  });
+</script>

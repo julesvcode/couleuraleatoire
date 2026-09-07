@@ -12,4 +12,4 @@ Il choisit une couleur au hasard parmi 16 777 216 couleurs HEX et affiche les co
 
 ## Ce que cet outil n'est pas
 
-Ce n'est pas un tirage de couleurs nommées (rouge, bleu, vert…). Pour ça, utiliser [Choisir une couleur au hasard](https://generateurdecouleur.com/choisir-une-couleur-au-hasard.md).
+Ce n'est pas un tirage de couleurs nommées (rouge, bleu, vert…). Pour ça, utiliser [Choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md).

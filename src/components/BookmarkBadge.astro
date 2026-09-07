@@ -1,11 +1,11 @@
 <div
   id="bookmarkBadge"
-  class="fixed top-6 left-1/2 -translate-x-1/2 z-30 opacity-0 -translate-y-2 pointer-events-none transition-all duration-500 ease-out"
+  class="hidden md:block absolute bottom-6 left-1/2 -translate-x-1/2 z-30 opacity-0 translate-y-2 pointer-events-none transition-all duration-500 ease-out"
   role="status"
   aria-live="polite"
 >
   <div class="flex items-center gap-2.5 px-2 py-2 rounded-lg bg-white/95 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/5">
-    <div id="bookmarkDesktop" class="hidden items-center gap-2.5">
+    <div class="flex items-center gap-2.5">
       <div class="flex items-center gap-1.5">
         <kbd id="bookmarkModifier" class="bookmark-kbd bookmark-kbd-modifier min-w-[2.5rem]">⌘</kbd>
         <span class="text-slate-400 text-xs font-medium select-none" aria-hidden="true">+</span>
@@ -13,12 +13,6 @@
       </div>
       <span class="text-sm font-medium text-slate-700 whitespace-nowrap">
         Ajoutez-nous à vos favoris
-      </span>
-    </div>
-
-    <div id="bookmarkMobile" class="hidden items-center gap-2.5">
-      <span class="text-sm font-medium text-slate-700 whitespace-nowrap">
-        Ajoutez cette page à vos favoris
       </span>
     </div>
 
@@ -63,10 +57,6 @@
 <script>
   const STORAGE_KEY = 'bookmarkBadgeDismissed';
 
-  function isMobileDevice() {
-    return window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1024;
-  }
-
   function isMac() {
     return /Mac/i.test(navigator.userAgent);
   }
@@ -75,7 +65,7 @@
     const badge = document.getElementById('bookmarkBadge');
     if (!badge || localStorage.getItem(STORAGE_KEY)) return;
 
-    badge.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
+    badge.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
     badge.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
   }
 
@@ -83,7 +73,7 @@
     const badge = document.getElementById('bookmarkBadge');
     if (!badge) return;
 
-    badge.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+    badge.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
     badge.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
 
     if (persist) {
@@ -93,20 +83,13 @@
 
   function initBookmarkBadge() {
     if (localStorage.getItem(STORAGE_KEY)) return;
+    if (window.matchMedia('(max-width: 767px)').matches) return;
 
-    const desktop = document.getElementById('bookmarkDesktop');
-    const mobile = document.getElementById('bookmarkMobile');
     const modifier = document.getElementById('bookmarkModifier');
-
-    if (isMobileDevice()) {
-      mobile?.classList.replace('hidden', 'flex');
-    } else {
-      desktop?.classList.replace('hidden', 'flex');
-      if (modifier && !isMac()) {
-        modifier.textContent = 'Ctrl';
-        modifier.classList.remove('bookmark-kbd-modifier');
-        modifier.classList.add('min-w-[3rem]');
-      }
+    if (modifier && !isMac()) {
+      modifier.textContent = 'Ctrl';
+      modifier.classList.remove('bookmark-kbd-modifier');
+      modifier.classList.add('min-w-[3rem]');
     }
 
     const colorSection = document.getElementById('colorSection');
