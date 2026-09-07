@@ -23,9 +23,9 @@ Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement lai
 ## Optional
 
 - [Tous les outils](https://generateurdecouleur.com/outils/index.md)
-- [Page d'accueil HTML](https://generateurdecouleur.com/)
-- [Palette (HTML)](https://generateurdecouleur.com/outils/palette-couleurs/)
-- [Convertisseur (HTML)](https://generateurdecouleur.com/outils/convertisseur-couleur/)
-- [Choisir une couleur au hasard (HTML)](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard/)
-- [Tirage au sort de couleur (HTML)](https://generateurdecouleur.com/outils/tirage-au-sort-couleur/)
+- [Page d'accueil HTML](https://generateurdecouleur.com)
+- [Palette (HTML)](https://generateurdecouleur.com/outils/palette-couleurs)
+- [Convertisseur (HTML)](https://generateurdecouleur.com/outils/convertisseur-couleur)
+- [Choisir une couleur au hasard (HTML)](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard)
+- [Tirage au sort de couleur (HTML)](https://generateurdecouleur.com/outils/tirage-au-sort-couleur)
 - [Sitemap](https://generateurdecouleur.com/sitemap-index.xml)

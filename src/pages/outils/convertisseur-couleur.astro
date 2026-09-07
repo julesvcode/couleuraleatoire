@@ -5,13 +5,32 @@ import Footer from '../../components/Footer.astro';
 import ToolNav from '../../components/ToolNav.astro';
 
 const initialColor = '#FF5733';
+const faqs = [
+  {
+    question: 'Comment convertir du HEX en RGB ?',
+    answer: 'Collez le code HEX dans le champ HEX. Le RGB, le HSL et le CMYK se mettent à jour automatiquement.',
+  },
+  {
+    question: 'Puis-je convertir du RGB vers HEX ?',
+    answer: 'Oui. Entrez un RGB, par exemple rgb(255, 87, 51) ou 255, 87, 51. Les autres formats suivent.',
+  },
+  {
+    question: "Le CMYK est-il exact pour l'impression ?",
+    answer: "C'est une conversion standard depuis RGB, utile pour se faire une idée. Un fichier d'impression professionnel peut encore ajuster les valeurs.",
+  },
+  {
+    question: 'Est-ce que ça fonctionne sur mobile ?',
+    answer: 'Oui, directement dans le navigateur, sans inscription.',
+  },
+];
 ---
 
 <Layout
   title="Convertisseur de couleur HEX, RGB, HSL et CMYK"
   description="Convertissez une couleur entre HEX, RGB, HSL et CMYK. Un seul champ à modifier, tous les formats se mettent à jour. Copiez le code dont vous avez besoin."
-  canonicalPath="/outils/convertisseur-couleur/"
+  canonicalPath="/outils/convertisseur-couleur"
   markdownPath="/outils/convertisseur-couleur.md"
+  faqs={faqs}
 >
   <main>
     <section
@@ -79,7 +98,7 @@ const initialColor = '#FF5733';
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal">
           Pour plusieurs couleurs d'un coup, utilisez le
-          <a href="/outils/palette-couleurs/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de palette de couleurs</a>.
+          <a href="/outils/palette-couleurs" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de palette de couleurs</a>.
         </p>
       </div>
       <div>

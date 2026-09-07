@@ -5,13 +5,36 @@ import Footer from '../../components/Footer.astro';
 import ToolNav from '../../components/ToolNav.astro';
 
 const initialColors = ['#E63946', '#F1FAEE', '#A8DADC', '#457B9D', '#1D3557'];
+const faqs = [
+  {
+    question: 'Comment générer une palette de couleurs en ligne ?',
+    answer: 'Cliquez sur « Générer une nouvelle palette ». Cinq couleurs s\'affichent tout de suite, à copier un par un ou tous ensemble, en HEX, RGB, HSL ou CMYK.',
+  },
+  {
+    question: 'Puis-je copier la palette en RGB, HSL ou CMYK ?',
+    answer: 'Oui. Choisissez le format au-dessus des couleurs. Copier une couleur ou toute la palette utilise ce format.',
+  },
+  {
+    question: 'Puis-je garder certaines couleurs ?',
+    answer: 'Oui. Verrouillez une couleur pour qu\'elle ne change pas quand vous générez le reste de la palette.',
+  },
+  {
+    question: 'Quelle est la différence avec le générateur de couleur aléatoire ?',
+    answer: 'Le générateur de la page d\'accueil donne une seule couleur, avec HEX, RGB et HSL. Ici, vous obtenez cinq couleurs d\'un coup, pour composer une palette.',
+  },
+  {
+    question: 'Est-ce que ça fonctionne sur mobile ?',
+    answer: 'Oui, directement dans le navigateur, sans inscription.',
+  },
+];
 ---
 
 <Layout
   title="Générateur de palette de couleurs gratuit | 5 couleurs"
   description="Générez une palette de 5 couleurs en un clic. Verrouillez celles que vous gardez, puis copiez toute la palette en HEX, RGB, HSL ou CMYK."
-  canonicalPath="/outils/palette-couleurs/"
+  canonicalPath="/outils/palette-couleurs"
   markdownPath="/outils/palette-couleurs.md"
+  faqs={faqs}
 >
   <main>
     <section id="colorSection" class="relative flex flex-col min-h-screen font-sans">
@@ -76,7 +99,7 @@ const initialColors = ['#E63946', '#F1FAEE', '#A8DADC', '#457B9D', '#1D3557'];
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal">
           Pour une seule couleur, avec HEX, RGB, HSL et CMYK en même temps, utilisez le
-          <a href="/outils/convertisseur-couleur/" class="text-slate-900 font-medium underline hover:text-slate-700">convertisseur de couleur</a>.
+          <a href="/outils/convertisseur-couleur" class="text-slate-900 font-medium underline hover:text-slate-700">convertisseur de couleur</a>.
         </p>
       </div>
       <div>

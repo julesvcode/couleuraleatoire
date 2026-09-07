@@ -4,13 +4,37 @@ import ColorDrawWidget from '../../components/ColorDrawWidget.astro';
 import Footer from '../../components/Footer.astro';
 import ToolNav from '../../components/ToolNav.astro';
 import { IDLE_BACKGROUND } from '../../data/namedColors';
+
+const faqs = [
+  {
+    question: 'Comment faire un tirage au sort de couleur en ligne ?',
+    answer: 'Entrez vos couleurs dans la liste, puis cliquez sur « Tirer une couleur ». Une couleur est choisie au hasard parmi celles que vous avez écrites.',
+  },
+  {
+    question: 'Puis-je utiliser mes propres couleurs ?',
+    answer: 'Oui. Une couleur par ligne. Vous pouvez écrire des noms classiques, des équipes, ou n\'importe quel libellé.',
+  },
+  {
+    question: 'Quelle est la différence avec choisir une couleur au hasard ?',
+    answer: '« Choisir une couleur au hasard » pioche toujours dans la même liste de couleurs simples. Ici, vous fournissez la liste, et vous pouvez retirer une couleur une fois tirée.',
+  },
+  {
+    question: 'Est-ce un dé virtuel de couleur ?',
+    answer: 'Oui, c\'est le même usage : remplacer un dé de couleurs physiques. La différence, c\'est que vous choisissez les faces du dé.',
+  },
+  {
+    question: 'Est-ce que ça fonctionne sur mobile ?',
+    answer: 'Oui, directement dans le navigateur, sans inscription.',
+  },
+];
 ---
 
 <Layout
   title="Tirage au sort de couleur en ligne | Dé virtuel"
   description="Faites un tirage au sort de couleur en ligne. Entrez votre liste, tirez une couleur au hasard et retirez-la si besoin. Idéal pour la classe, les jeux et les ateliers."
-  canonicalPath="/outils/tirage-au-sort-couleur/"
+  canonicalPath="/outils/tirage-au-sort-couleur"
   markdownPath="/outils/tirage-au-sort-couleur.md"
+  faqs={faqs}
 >
   <main>
     <section
@@ -76,7 +100,7 @@ import { IDLE_BACKGROUND } from '../../data/namedColors';
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal mb-2">
           Si vous voulez seulement rouge, bleu, vert… sans préparer de liste, utilisez
-          <a href="/outils/choisir-une-couleur-au-hasard/" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>.
+          <a href="/outils/choisir-une-couleur-au-hasard" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>.
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal">
           Si vous avez besoin d'un code HEX, RGB ou HSL, utilisez le

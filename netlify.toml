@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "https://www.generateurdecouleur.com/*"
+  to = "https://generateurdecouleur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+  force = true

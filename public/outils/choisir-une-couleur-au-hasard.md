@@ -1,6 +1,6 @@
 # Choisir une couleur au hasard
 
-Outil gratuit en français : https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard/
+Outil gratuit en français : https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard
 
 Il choisit une couleur nommée, pas un code HEX. Utile quand on veut juste qu'on dise « bleu » ou « rouge » : jeu, classe, décision rapide.
 

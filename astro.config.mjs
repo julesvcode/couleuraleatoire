@@ -6,5 +6,17 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://generateurdecouleur.com',
-  integrations: [tailwind(), sitemap()]
+  trailingSlash: 'never',
+  build: {
+    format: 'file',
+  },
+  integrations: [
+    tailwind(),
+    sitemap({
+      serialize(item) {
+        item.url = item.url.replace(/\/+$/, '');
+        return item;
+      },
+    }),
+  ],
 });

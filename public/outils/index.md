@@ -1,6 +1,6 @@
 # Outils de couleur
 
-Liste des outils gratuits : https://generateurdecouleur.com/outils/
+Liste des outils gratuits : https://generateurdecouleur.com/outils
 
 - [Générateur de couleur aléatoire](https://generateurdecouleur.com/index.md)
 - [Générateur de palette de couleurs](https://generateurdecouleur.com/outils/palette-couleurs.md)

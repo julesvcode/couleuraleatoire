@@ -9,7 +9,7 @@ const { currentColor } = Astro.props;
 const currentRgb = hexToRgb(currentColor);
 const currentHsl = hexToHsl(currentColor);
 const invitePalette = paletteFromColor(currentColor);
-const inviteHref = `/outils/palette-couleurs/?c=${currentColor.replace('#', '')}`;
+const inviteHref = `/outils/palette-couleurs?c=${currentColor.replace('#', '')}`;
 ---
 
 <div class="max-w-sm w-full flex flex-col gap-3">
@@ -118,7 +118,7 @@ const inviteHref = `/outils/palette-couleurs/?c=${currentColor.replace('#', '')}
     const invite = document.getElementById('paletteInvite') as HTMLAnchorElement | null;
     const swatches = document.querySelectorAll<HTMLElement>('.palette-invite-swatch');
     const palette = paletteFromColor(hex);
-    if (invite) invite.href = `/outils/palette-couleurs/?c=${hex.replace('#', '')}`;
+    if (invite) invite.href = `/outils/palette-couleurs?c=${hex.replace('#', '')}`;
     swatches.forEach((swatch, index) => {
       swatch.style.backgroundColor = palette[index] ?? hex;
     });

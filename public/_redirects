@@ -1,7 +1,4 @@
-https://www.generateurdecouleur.com/*  https://generateurdecouleur.com/:splat  301!
 /go/framer https://framer.link/Y99kCBG 301
 /llm.txt /llms.txt 301
-/choisir-une-couleur-au-hasard /outils/choisir-une-couleur-au-hasard/ 301
-/choisir-une-couleur-au-hasard/ /outils/choisir-une-couleur-au-hasard/ 301
-/tirage-au-sort-couleur /outils/tirage-au-sort-couleur/ 301
-/tirage-au-sort-couleur/ /outils/tirage-au-sort-couleur/ 301
+/choisir-une-couleur-au-hasard /outils/choisir-une-couleur-au-hasard 301
+/tirage-au-sort-couleur /outils/tirage-au-sort-couleur 301

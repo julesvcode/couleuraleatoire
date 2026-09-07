@@ -1,6 +1,6 @@
 # Convertisseur de couleur HEX, RGB, HSL et CMYK
 
-Outil gratuit en français : https://generateurdecouleur.com/outils/convertisseur-couleur/
+Outil gratuit en français : https://generateurdecouleur.com/outils/convertisseur-couleur
 
 Il convertit une couleur entre HEX, RGB, HSL et CMYK. Modifier un format met les autres à jour. Chaque valeur est copiable.
 

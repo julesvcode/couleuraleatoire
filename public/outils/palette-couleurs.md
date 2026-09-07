@@ -1,6 +1,6 @@
 # Générateur de palette de couleurs
 
-Outil gratuit en français : https://generateurdecouleur.com/outils/palette-couleurs/
+Outil gratuit en français : https://generateurdecouleur.com/outils/palette-couleurs
 
 Il génère une palette de 5 couleurs. Chaque couleur peut être verrouillée pour rester en place quand on génère le reste. Toute la palette peut s'afficher et se copier en HEX, RGB, HSL ou CMYK.
 

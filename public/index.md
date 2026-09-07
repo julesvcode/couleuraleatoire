@@ -1,6 +1,6 @@
 # Générateur de couleur aléatoire
 
-Outil gratuit en français : https://generateurdecouleur.com/
+Outil gratuit en français : https://generateurdecouleur.com
 
 Il choisit une couleur au hasard parmi 16 777 216 couleurs HEX et affiche les codes HEX, RGB et HSL, chacun copiable.
 
