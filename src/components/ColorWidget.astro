@@ -1,5 +1,5 @@
 ---
-import { hexToHsl, hexToRgb } from '../utils/color';
+import { hexToHsl, hexToRgb, paletteFromColor } from '../utils/color';
 
 interface Props {
   currentColor: string;
@@ -8,9 +8,12 @@ interface Props {
 const { currentColor } = Astro.props;
 const currentRgb = hexToRgb(currentColor);
 const currentHsl = hexToHsl(currentColor);
+const invitePalette = paletteFromColor(currentColor);
+const inviteHref = `/outils/palette-couleurs/?c=${currentColor.replace('#', '')}`;
 ---
 
-<div class="max-w-sm w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
+<div class="max-w-sm w-full flex flex-col gap-3">
+<div class="w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
     <div>
       <h1 class="text-2xl font-bold mb-4">Générateur de couleur aléatoire</h1>
       <p class="text-base font-regular">Générez une couleur au hasard en un clic et copiez son code HEX, RGB ou HSL.</p>
@@ -73,6 +76,25 @@ const currentHsl = hexToHsl(currentColor);
     </div>
 </div>
 
+<a
+  id="paletteInvite"
+  href={inviteHref}
+  class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg bg-white/90 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 hover:bg-white transition-colors"
+>
+  <span class="flex h-8 w-[5.75rem] rounded-md overflow-hidden shrink-0 ring-1 ring-black/10" aria-hidden="true">
+    {invitePalette.map((hex) => (
+      <span class="palette-invite-swatch flex-1" style={`background-color: ${hex}`}></span>
+    ))}
+  </span>
+  <span class="flex-1 min-w-0 text-sm font-medium text-slate-900 leading-snug">
+    Créer une palette avec cette couleur
+  </span>
+  <svg class="shrink-0 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+  </svg>
+</a>
+</div>
+
 <div 
     id="toast" 
     class="fixed bottom-4 md:bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none"
@@ -81,7 +103,7 @@ const currentHsl = hexToHsl(currentColor);
 </div>
 
 <script>
-  import { hexToHsl, hexToRgb } from '../utils/color';
+  import { hexToHsl, hexToRgb, paletteFromColor } from '../utils/color';
 
   function generateRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -92,6 +114,16 @@ const currentHsl = hexToHsl(currentColor);
     return color;
   }
 
+  function updatePaletteInvite(hex: string) {
+    const invite = document.getElementById('paletteInvite') as HTMLAnchorElement | null;
+    const swatches = document.querySelectorAll<HTMLElement>('.palette-invite-swatch');
+    const palette = paletteFromColor(hex);
+    if (invite) invite.href = `/outils/palette-couleurs/?c=${hex.replace('#', '')}`;
+    swatches.forEach((swatch, index) => {
+      swatch.style.backgroundColor = palette[index] ?? hex;
+    });
+  }
+
   function updateColorCodes(hex: string) {
     const colorCode = document.getElementById('colorCode');
     const colorCodeRgb = document.getElementById('colorCodeRgb');
@@ -99,6 +131,7 @@ const currentHsl = hexToHsl(currentColor);
     if (colorCode) colorCode.textContent = hex;
     if (colorCodeRgb) colorCodeRgb.textContent = hexToRgb(hex);
     if (colorCodeHsl) colorCodeHsl.textContent = hexToHsl(hex);
+    updatePaletteInvite(hex);
   }
 
   function updateColor() {

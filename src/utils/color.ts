@@ -219,7 +219,9 @@ export function randomHex(): string {
 }
 
 export function generatePalette(existing: string[], locked: boolean[]): string[] {
-  const baseHue = Math.random() * 360;
+  const seedHex = existing.find((hex, index) => locked[index] && hex);
+  const seedHsl = seedHex ? hexToHslChannels(seedHex) : null;
+  const baseHue = seedHsl ? seedHsl.h : Math.random() * 360;
   return existing.map((hex, index) => {
     if (locked[index]) return hex;
     return hslToHex({
@@ -228,6 +230,22 @@ export function generatePalette(existing: string[], locked: boolean[]): string[]
       l: Math.round(28 + ((index * 15) % 42) + Math.random() * 8),
     });
   });
+}
+
+export function paletteFromColor(hex: string, count = 5): string[] {
+  const formatted = formatHex(hex);
+  const hsl = hexToHslChannels(formatted);
+  if (!formatted || !hsl) return Array.from({ length: count }, () => formatted || '#808080');
+
+  const around = [
+    formatted,
+    hslToHex({ h: hsl.h + 28, s: Math.min(100, hsl.s + 6), l: Math.min(92, hsl.l + 10) }),
+    hslToHex({ h: hsl.h - 32, s: Math.max(18, hsl.s - 8), l: Math.max(12, hsl.l - 12) }),
+    hslToHex({ h: hsl.h + 180, s: Math.max(22, hsl.s - 12), l: Math.min(78, Math.max(22, hsl.l) ) }),
+    hslToHex({ h: hsl.h, s: Math.max(12, hsl.s - 18), l: hsl.l > 50 ? 16 : 88 }),
+  ];
+
+  return around.slice(0, count);
 }
 
 export function contrastingTextColor(hex: string): '#0F172A' | '#F8FAFC' {

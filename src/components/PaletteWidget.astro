@@ -98,7 +98,7 @@ const { colors } = Astro.props;
 </div>
 
 <script>
-  import { generatePalette, hexToCmyk, hexToHsl, hexToRgb } from '../utils/color';
+  import { formatHex, generatePalette, hexToCmyk, hexToHsl, hexToRgb, paletteFromColor } from '../utils/color';
 
   type PaletteFormat = 'hex' | 'rgb' | 'hsl' | 'cmyk';
 
@@ -112,6 +112,12 @@ const { colors } = Astro.props;
   let colors: string[] = root?.dataset.colors ? root.dataset.colors.split(',') : [];
   let locked = colors.map(() => false);
   let format: PaletteFormat = 'hex';
+
+  const seed = formatHex(new URLSearchParams(window.location.search).get('c') ?? '');
+  if (seed) {
+    colors = paletteFromColor(seed);
+    locked = colors.map((_, index) => index === 0);
+  }
 
   function formatColor(hex: string, currentFormat: PaletteFormat): string {
     switch (currentFormat) {
