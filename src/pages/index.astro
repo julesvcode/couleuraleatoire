@@ -8,7 +8,10 @@ import BookmarkBadge from '../components/BookmarkBadge.astro';
 const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
 ---
 
-<Layout title="Générateur de couleur aléatoire gratuit | Couleur au hasard">
+<Layout
+	title="Générateur de couleur aléatoire gratuit | Couleur au hasard"
+	description="Générez une couleur aléatoire en un clic. Obtenez instantanément son code HEX, RGB et HSL, puis copiez-le pour vos designs, sites web ou projets."
+>
 	<main>
 		<section id="colorSection" style={`background-color: ${initialColor}`} class="flex flex-col md:flex-row min-h-screen font-sans">
 			<div class="flex flex-1 order-2 md:order-1 items-center justify-center md:justify-start md:pl-24">
@@ -93,6 +96,19 @@ const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padSt
 			</div>
 			<div>
 				<h2 class="text-slate-900 font-semibold text-2xl mb-4">
+					Vous voulez simplement choisir une couleur au hasard ?
+				</h2>
+				<p class="text-slate-600 font-normal text-base leading-normal mb-2">
+					Si vous n'avez pas besoin d'un code HEX précis, vous pouvez laisser le hasard choisir parmi des couleurs simples : rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris ou marron.
+				</p>
+				<p class="text-slate-600 font-normal text-base leading-normal">
+					<a href="/choisir-une-couleur-au-hasard/" class="text-slate-900 font-medium underline hover:text-slate-700">
+						Choisir une couleur au hasard →
+					</a>
+				</p>
+			</div>
+			<div>
+				<h2 class="text-slate-900 font-semibold text-2xl mb-4">
 					Questions fréquentes
 				</h2>
 				<h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
@@ -105,7 +121,9 @@ const initialColor = '#' + Math.floor(Math.random()*16777215).toString(16).padSt
 					Comment choisir une couleur au hasard ?
 				</h3>
 				<p class="text-slate-600 text-base leading-normal font-normal mb-4">
-					Vous pouvez utiliser le générateur pour obtenir une couleur parmi des millions de possibilités ou le générateur de couleurs simples pour choisir entre rouge, bleu, vert, jaune, etc.
+					Vous pouvez utiliser le générateur pour obtenir une couleur parmi des millions de possibilités, ou
+					<a href="/choisir-une-couleur-au-hasard/" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>
+					parmi des couleurs simples : rouge, bleu, vert, jaune, etc.
 				</p>
 				<h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
 					Qu'est-ce qu'un code HEX ?

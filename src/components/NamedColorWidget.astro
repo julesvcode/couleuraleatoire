@@ -1,0 +1,71 @@
+<div class="max-w-sm w-full bg-slate-100 text-slate-900 font-sans p-6 rounded-lg border border-slate-300 shadow-lg flex flex-col gap-8">
+  <div>
+    <h1 class="text-2xl font-bold mb-4">Choisir une couleur au hasard</h1>
+    <p class="text-base">Cliquez sur le bouton pour laisser le hasard choisir une couleur simple : rouge, bleu, vert, jaune…</p>
+  </div>
+
+  <div
+    id="namedColorResult"
+    class="hidden flex-col gap-2 bg-white/70 rounded-lg p-4 border border-slate-200"
+    aria-live="polite"
+  >
+    <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Le hasard a choisi</span>
+    <div class="flex items-center gap-3">
+      <span id="namedColorSwatch" class="w-10 h-10 rounded-full border border-slate-300 shrink-0"></span>
+      <span id="namedColorName" class="text-2xl font-bold tracking-tight"></span>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <button
+      id="pickNamedColor"
+      type="button"
+      class="bg-slate-900 text-slate-100 font-semibold text-sm rounded py-3 px-2 hover:bg-opacity-90 transition-colors"
+    >
+      Choisir une couleur
+    </button>
+    <small class="text-slate-500 italic">Astuce : Appuyez sur Espace pour choisir une autre couleur.</small>
+  </div>
+</div>
+
+<script>
+  import { pickNamedColor } from '../data/namedColors';
+  import { contrastingTextColor } from '../utils/color';
+
+  let currentSlug: string | undefined;
+
+  function pickColor() {
+    const color = pickNamedColor(currentSlug);
+    currentSlug = color.slug;
+
+    const section = document.getElementById('colorSection');
+    const heroName = document.getElementById('heroColorName');
+    const result = document.getElementById('namedColorResult');
+    const swatch = document.getElementById('namedColorSwatch');
+    const name = document.getElementById('namedColorName');
+    const button = document.getElementById('pickNamedColor');
+    const textColor = contrastingTextColor(color.hex);
+
+    if (section) section.style.backgroundColor = color.hex;
+    if (heroName) {
+      heroName.textContent = color.name;
+      heroName.style.color = textColor;
+    }
+    if (swatch) swatch.style.backgroundColor = color.hex;
+    if (name) name.textContent = color.name;
+    if (result) {
+      result.classList.remove('hidden');
+      result.classList.add('flex');
+    }
+    if (button) button.textContent = 'Choisir une autre couleur';
+  }
+
+  document.getElementById('pickNamedColor')?.addEventListener('click', pickColor);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code !== 'Space' || event.repeat) return;
+    if (event.target instanceof HTMLElement && event.target.matches('input, textarea')) return;
+    event.preventDefault();
+    pickColor();
+  });
+</script>
