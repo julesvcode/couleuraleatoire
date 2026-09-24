@@ -1,6 +1,6 @@
 ---
 import AdBanner from "../components/AdBanner.astro";
-import framerBanner from "../assets/framer_ad.png";
+import framerIcon from "../assets/framer-icon.jpeg";
 
 export type Faq = {
   question: string;
@@ -87,9 +87,11 @@ const faqJsonLd =
   <body id="top" class="bg-white text-slate-900">
     <slot />
     <AdBanner
-      description="Publiez votre site web en quelques minutes avec Framer."
+      title="Framer"
+      description="Créez des sites d'exception avec l'IA. L'outil de preference pour les créatifs."
+      cta="Commencer gratuitement"
       link="/go/framer"
-      imageUrl={framerBanner}
+      imageUrl={framerIcon}
     />
   </body>
 </html>
