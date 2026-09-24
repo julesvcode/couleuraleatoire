@@ -1,0 +1,156 @@
+---
+import { contrastingTextColor, hexToCmyk, hexToHsl, hexToRgb, paletteFromColor } from '../utils/color';
+import { colorHref, type ColorPage } from '../data/couleurs';
+
+interface Props {
+  color: ColorPage;
+  title: string;
+  drawLabel: string;
+  drawPool: ColorPage[];
+}
+
+const { color, title, drawLabel, drawPool } = Astro.props;
+const codes = [
+  { id: 'codeHex', label: 'HEX', value: color.hex },
+  { id: 'codeRgb', label: 'RGB', value: hexToRgb(color.hex) },
+  { id: 'codeHsl', label: 'HSL', value: hexToHsl(color.hex) },
+  { id: 'codeCmyk', label: 'CMYK', value: hexToCmyk(color.hex) },
+];
+const pool = JSON.stringify(
+  drawPool.map((item) => ({ name: item.name, hex: item.hex, href: colorHref(item) })),
+);
+const invitePalette = paletteFromColor(color.hex);
+const inviteHref = `/outils/palette-couleurs?c=${color.hex.replace('#', '')}`;
+---
+
+<section
+  id="colorSection"
+  style={`background-color: ${color.hex}`}
+  class="relative flex flex-col md:flex-row min-h-screen font-sans transition-colors duration-300"
+>
+  <div class="flex flex-1 order-2 md:order-1 items-center justify-center px-4 py-6 md:px-0 md:py-0 md:justify-start md:pl-24">
+    <div class="max-w-sm w-full flex flex-col gap-3">
+      <div class="w-full bg-slate-100 text-slate-900 p-6 rounded-lg border border-slate-100/20 shadow-lg flex flex-col gap-8">
+        <div>
+          <h1 class="text-2xl font-bold mb-4">{title}</h1>
+          <p class="text-base">Code couleur, nuances et couleurs qui vont avec.</p>
+        </div>
+        <div class="flex flex-col gap-3 bg-white/70 rounded-lg p-4 border border-slate-200">
+          <span class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Codes couleur</span>
+          <div class="flex flex-col gap-2.5">
+            {codes.map((code) => (
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-zinc-500 w-10 shrink-0">{code.label}</span>
+                <span id={code.id} class="text-sm font-mono flex-1 min-w-0 truncate">{code.value}</span>
+                <button
+                  data-copy={code.value}
+                  class="copy-btn relative shrink-0 border border-slate-300 rounded-md text-slate-900 p-1 hover:bg-slate-200 group"
+                  aria-label={`Copier le code ${code.label}`}
+                >
+                  <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-slate-100 bg-slate-900 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                    Copier
+                  </span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+        {drawPool.length > 0 && (
+          <button
+            id="drawShade"
+            data-pool={pool}
+            class="bg-slate-900 text-slate-100 font-semibold text-sm rounded py-3 px-2 hover:bg-opacity-90 transition-colors"
+          >
+            {drawLabel}
+          </button>
+        )}
+      </div>
+      <a
+        href={inviteHref}
+        class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg bg-white/90 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 hover:bg-white transition-colors"
+      >
+        <span class="flex h-8 w-[5.75rem] rounded-md overflow-hidden shrink-0 ring-1 ring-black/10" aria-hidden="true">
+          {invitePalette.map((hex) => (
+            <span class="flex-1" style={`background-color: ${hex}`}></span>
+          ))}
+        </span>
+        <span class="flex-1 min-w-0 text-sm font-medium text-slate-900 leading-snug">
+          Créer une palette avec cette couleur
+        </span>
+        <svg class="shrink-0 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+          <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="order-1 md:order-2 flex flex-1 flex-col items-center justify-center gap-4 px-6 pt-24 pb-16 md:py-0">
+    <p
+      id="heroColorName"
+      style={`color: ${contrastingTextColor(color.hex)}`}
+      class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight uppercase text-center break-words"
+    >
+      {color.name}
+    </p>
+    <a
+      id="drawnLink"
+      href="#"
+      class="hidden rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-slate-900 shadow-lg hover:bg-white transition-colors"
+    ></a>
+  </div>
+</section>
+
+<div
+  id="toast"
+  class="fixed bottom-4 md:bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none"
+>
+  Code copié !
+</div>
+
+<script>
+  import { contrastingTextColor } from '../utils/color';
+
+  type Drawn = { name: string; hex: string; href: string };
+
+  const drawButton = document.getElementById('drawShade');
+  const pool: Drawn[] = JSON.parse(drawButton?.dataset.pool ?? '[]');
+  let lastHex = '';
+
+  drawButton?.addEventListener('click', () => {
+    const candidates = pool.length > 1 ? pool.filter((item) => item.hex !== lastHex) : pool;
+    const drawn = candidates[Math.floor(Math.random() * candidates.length)];
+    if (!drawn) return;
+    lastHex = drawn.hex;
+
+    const section = document.getElementById('colorSection');
+    const name = document.getElementById('heroColorName');
+    const link = document.getElementById('drawnLink') as HTMLAnchorElement | null;
+    if (section) section.style.backgroundColor = drawn.hex;
+    if (name) {
+      name.textContent = drawn.name;
+      name.style.color = contrastingTextColor(drawn.hex);
+    }
+    if (link) {
+      link.href = drawn.href;
+      link.textContent = `Voir ${drawn.name} · ${drawn.hex} →`;
+      link.classList.remove('hidden');
+    }
+  });
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.classList.remove('opacity-0');
+    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const text = button.dataset.copy;
+      if (text) {
+        await navigator.clipboard.writeText(text);
+        showToast();
+      }
+    });
+  });
+</script>

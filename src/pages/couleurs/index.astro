@@ -1,0 +1,84 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolNav from '../../components/ToolNav.astro';
+import Footer from '../../components/Footer.astro';
+import { COLOR_FAMILIES, COLOR_SHADES, colorHref, shadesOf } from '../../data/couleurs';
+
+const total = COLOR_FAMILIES.length + COLOR_SHADES.length;
+const faqs = [
+  {
+    question: 'Comment trouver le code HEX d\'une couleur ?',
+    answer: 'Choisissez une couleur dans la liste : sa page affiche son code HEX, RGB, HSL et CMYK, prêts à copier.',
+  },
+  {
+    question: 'Les codes couleur sont-ils officiels ?',
+    answer: 'Non. Les noms de couleur ne sont pas normalisés et varient selon les nuanciers. Les codes proposés ici sont des valeurs de référence courantes.',
+  },
+  {
+    question: 'Comment savoir quelles couleurs vont ensemble ?',
+    answer: 'Chaque page de couleur propose des associations et un lien vers le générateur de palette, prérempli avec la couleur choisie.',
+  },
+];
+---
+
+<Layout
+  title="Couleurs : codes HEX, nuances et palettes"
+  description={`Codes couleur HEX, RGB et CMYK de ${total} couleurs et nuances : bleu marine, vert sauge, terracotta, rose poudré… Avec les couleurs qui vont avec.`}
+  canonicalPath="/couleurs"
+  markdownPath="/couleurs.md"
+  faqs={faqs}
+>
+  <main>
+    <ToolNav />
+    <section class="max-w-3xl flex flex-col gap-10 mx-auto pt-28 pb-12 px-4 font-sans">
+      <div class="max-w-xl">
+        <h1 class="text-4xl text-slate-900 font-bold leading-normal mb-4">
+          Couleurs : codes, nuances et palettes
+        </h1>
+        <p class="text-slate-600 text-base leading-normal">
+          Retrouvez le code HEX, RGB et CMYK de {total} couleurs et nuances, les couleurs qui vont avec, et créez une palette en un clic.
+        </p>
+      </div>
+      {COLOR_FAMILIES.map((family) => {
+        const shades = shadesOf(family.slug);
+        return (
+          <div>
+            <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+              <a href={colorHref(family)} class="hover:underline">Couleur {family.adjective}</a>
+            </h2>
+            <ul class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[family, ...shades].map((item) => (
+                <li>
+                  <a href={colorHref(item)} class="flex flex-col rounded-lg border border-slate-200 overflow-hidden transition-shadow hover:shadow-md">
+                    <span class="h-14" style={`background-color: ${item.hex}`}></span>
+                    <span class="px-3 py-2">
+                      <span class="block text-sm font-medium text-slate-900">{item.name}</span>
+                      <span class="block text-xs font-mono text-slate-500">{item.hex}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+      <div class="max-w-xl">
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4">
+          Questions fréquentes
+        </h2>
+        {faqs.map((faq) => (
+          <>
+            <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">{faq.question}</h3>
+            <p class="text-slate-600 text-base leading-normal font-normal mb-4">{faq.answer}</p>
+          </>
+        ))}
+        <p class="text-slate-600 text-base leading-normal">
+          Pas de couleur en tête ? Laissez le
+          <a href="/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de couleur aléatoire</a>
+          choisir pour vous.
+        </p>
+      </div>
+    </section>
+    <Footer />
+  </main>
+</Layout>

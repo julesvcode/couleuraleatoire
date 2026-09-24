@@ -20,6 +20,10 @@ Le site est utile pour le design, le CSS, les jeux, la classe, ou simplement lai
 - [Choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md): Tire une couleur nommée parmi rouge, bleu, vert, jaune, orange, violet, rose, noir, blanc, gris et marron.
 - [Tirage au sort de couleur](https://generateurdecouleur.com/outils/tirage-au-sort-couleur.md): Pioche une couleur dans une liste personnalisée, comme un dé virtuel.
 
+## Couleurs
+
+- [Couleurs : codes, nuances et palettes](https://generateurdecouleur.com/couleurs.md): Codes HEX, RGB, HSL et CMYK de couleurs nommées en français (bleu marine, vert sauge, terracotta…), avec les couleurs qui vont avec. Chaque couleur a sa page, par exemple [Bleu canard](https://generateurdecouleur.com/couleurs/bleu-canard.md).
+
 ## Optional
 
 - [Tous les outils](https://generateurdecouleur.com/outils/index.md)

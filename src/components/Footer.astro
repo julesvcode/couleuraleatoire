@@ -1,5 +1,6 @@
 ---
 import { TOOLS, currentPath } from '../data/tools';
+import { COLOR_FAMILIES, colorHref } from '../data/couleurs';
 
 const year = new Date().getFullYear();
 const path = currentPath(Astro.url.pathname);
@@ -30,6 +31,27 @@ const path = currentPath(Astro.url.pathname);
                 aria-current={path === tool.match ? 'page' : undefined}
               >
                 {tool.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <nav aria-label="Couleurs">
+        <a href="/couleurs" class="text-xs font-medium uppercase tracking-wide text-slate-400 mb-3 inline-block hover:text-slate-600">
+          Couleurs
+        </a>
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
+          {COLOR_FAMILIES.map((family) => (
+            <li>
+              <a
+                href={colorHref(family)}
+                class:list={[
+                  'transition-colors hover:text-slate-900',
+                  path === colorHref(family) ? 'text-slate-900 font-medium' : 'text-slate-600',
+                ]}
+                aria-current={path === colorHref(family) ? 'page' : undefined}
+              >
+                {family.name}
               </a>
             </li>
           ))}

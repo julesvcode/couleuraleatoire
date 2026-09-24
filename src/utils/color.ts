@@ -248,6 +248,69 @@ export function paletteFromColor(hex: string, count = 5): string[] {
   return around.slice(0, count);
 }
 
+export function mixHex(from: string, to: string, amount: number): string {
+  const a = parseHex(from);
+  const b = parseHex(to);
+  if (!a || !b) return formatHex(from);
+  return rgbToHex({
+    r: a.r + (b.r - a.r) * amount,
+    g: a.g + (b.g - a.g) * amount,
+    b: a.b + (b.b - a.b) * amount,
+  });
+}
+
+export function complementaryHex(hex: string): string {
+  const hsl = hexToHslChannels(hex);
+  if (!hsl) return formatHex(hex);
+  return hslToHex({ ...hsl, h: hsl.h + 180 });
+}
+
+type Lab = { l: number; a: number; b: number };
+
+function hexToLab(hex: string): Lab | null {
+  const rgb = parseHex(hex);
+  if (!rgb) return null;
+
+  const toLinear = (channel: number) => {
+    const value = channel / 255;
+    return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+  };
+  const r = toLinear(rgb.r);
+  const g = toLinear(rgb.g);
+  const b = toLinear(rgb.b);
+
+  const x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+  const y = r * 0.2126 + g * 0.7152 + b * 0.0722;
+  const z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+  const f = (t: number) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+
+  return {
+    l: 116 * f(y) - 16,
+    a: 500 * (f(x) - f(y)),
+    b: 200 * (f(y) - f(z)),
+  };
+}
+
+export function colorDistance(first: string, second: string): number {
+  const a = hexToLab(first);
+  const b = hexToLab(second);
+  if (!a || !b) return Infinity;
+  return Math.hypot(a.l - b.l, a.a - b.a, a.b - b.b);
+}
+
+export function nearestColor<T extends { hex: string }>(hex: string, colors: T[]): T | null {
+  let best: T | null = null;
+  let bestDistance = Infinity;
+  for (const color of colors) {
+    const distance = colorDistance(hex, color.hex);
+    if (distance < bestDistance) {
+      best = color;
+      bestDistance = distance;
+    }
+  }
+  return best;
+}
+
 export function contrastingTextColor(hex: string): '#0F172A' | '#F8FAFC' {
   const rgb = parseHex(hex);
   if (!rgb) return '#0F172A';
