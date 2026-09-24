@@ -1,5 +1,6 @@
 ---
-import { hexToHsl, hexToRgb, paletteFromColor } from '../utils/color';
+import { hexToHsl, hexToRgb, nearestColor, paletteFromColor } from '../utils/color';
+import { ALL_COLOR_PAGES, colorHref } from '../data/couleurs';
 
 interface Props {
   currentColor: string;
@@ -10,6 +11,8 @@ const currentRgb = hexToRgb(currentColor);
 const currentHsl = hexToHsl(currentColor);
 const invitePalette = paletteFromColor(currentColor);
 const inviteHref = `/outils/palette-couleurs?c=${currentColor.replace('#', '')}`;
+const namedColors = ALL_COLOR_PAGES.map((color) => ({ name: color.name, hex: color.hex, href: colorHref(color) }));
+const nearest = nearestColor(currentColor, namedColors);
 ---
 
 <div class="max-w-sm w-full flex flex-col gap-3">
@@ -93,6 +96,26 @@ const inviteHref = `/outils/palette-couleurs?c=${currentColor.replace('#', '')}`
     <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
   </svg>
 </a>
+
+<a
+  id="nearestColor"
+  href={nearest?.href ?? '/couleurs'}
+  data-colors={JSON.stringify(namedColors)}
+  class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg bg-white/90 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 hover:bg-white transition-colors"
+>
+  <span
+    id="nearestSwatch"
+    class="h-8 w-8 rounded-md shrink-0 ring-1 ring-black/10"
+    style={`background-color: ${nearest?.hex ?? currentColor}`}
+    aria-hidden="true"
+  ></span>
+  <span class="flex-1 min-w-0 text-sm text-slate-900 leading-snug">
+    Nuance la plus proche : <span id="nearestName" class="font-medium">{nearest?.name}</span>
+  </span>
+  <svg class="shrink-0 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+  </svg>
+</a>
 </div>
 
 <div 
@@ -103,7 +126,22 @@ const inviteHref = `/outils/palette-couleurs?c=${currentColor.replace('#', '')}`
 </div>
 
 <script>
-  import { hexToHsl, hexToRgb, paletteFromColor } from '../utils/color';
+  import { hexToHsl, hexToRgb, nearestColor, paletteFromColor } from '../utils/color';
+
+  type NamedColor = { name: string; hex: string; href: string };
+
+  const nearestLink = document.getElementById('nearestColor') as HTMLAnchorElement | null;
+  const namedColors: NamedColor[] = JSON.parse(nearestLink?.dataset.colors ?? '[]');
+
+  function updateNearestColor(hex: string) {
+    const nearest = nearestColor(hex, namedColors);
+    const swatch = document.getElementById('nearestSwatch');
+    const name = document.getElementById('nearestName');
+    if (!nearest || !nearestLink) return;
+    nearestLink.href = nearest.href;
+    if (swatch) swatch.style.backgroundColor = nearest.hex;
+    if (name) name.textContent = nearest.name;
+  }
 
   function generateRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -132,6 +170,7 @@ const inviteHref = `/outils/palette-couleurs?c=${currentColor.replace('#', '')}`
     if (colorCodeRgb) colorCodeRgb.textContent = hexToRgb(hex);
     if (colorCodeHsl) colorCodeHsl.textContent = hexToHsl(hex);
     updatePaletteInvite(hex);
+    updateNearestColor(hex);
   }
 
   function updateColor() {
