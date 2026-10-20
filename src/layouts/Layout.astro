@@ -1,5 +1,6 @@
 ---
 import AdBanner from "../components/AdBanner.astro";
+import ConsentNotice from "../components/ConsentNotice.astro";
 import framerIcon from "../assets/framer-icon.jpeg";
 
 export type Faq = {
@@ -83,18 +84,22 @@ const faqJsonLd =
       src="https://api.pirsch.io/pa.js"
       id="pianjs"
       data-code="5C3k55SkoTTy4LonZYJmHMwugsasSt8Z"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9EVBQ2CK1T" is:inline></script>
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-9EVBQ2CK1T');
+      try {
+        var analyticsConsent = localStorage.getItem('analyticsConsent');
+        if (analyticsConsent === 'granted' || analyticsConsent === 'denied') {
+          document.documentElement.classList.add('consent-known');
+        }
+      } catch (error) {}
     </script>
+    <style is:inline>
+      html:not(.consent-known) #ad-banner { display: none; }
+      html.consent-known #consent-notice { display: none; }
+    </style>
   </head>
   <body id="top" class="bg-white text-slate-900">
     <slot />
+    <ConsentNotice />
     <AdBanner
       title="Framer"
       description="Créez des sites d'exception avec l'IA. L'outil de preference pour les créatifs."
