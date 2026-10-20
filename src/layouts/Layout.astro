@@ -1,7 +1,7 @@
 ---
 import AdBanner from "../components/AdBanner.astro";
 import ConsentNotice from "../components/ConsentNotice.astro";
-import framerIcon from "../assets/framer-icon.jpeg";
+import instantGradientIcon from "../assets/instantgradient-icon.png";
 
 export type Faq = {
   question: string;
@@ -101,11 +101,11 @@ const faqJsonLd =
     <slot />
     <ConsentNotice />
     <AdBanner
-      title="Framer"
-      description="Créez des sites d'exception avec l'IA. L'outil de preference pour les créatifs."
-      cta="Commencer gratuitement"
-      link="/go/framer"
-      imageUrl={framerIcon}
+      title="InstantGradient"
+      description="Créez des dégradés animés en quelques secondes et exportez-les en image 4K, vidéo ou code."
+      cta="Essayer gratuitement"
+      link="/go/instantgradient"
+      imageUrl={instantGradientIcon}
     />
   </body>
 </html>
