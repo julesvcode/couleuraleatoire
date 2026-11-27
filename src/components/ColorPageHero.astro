@@ -1,0 +1,48 @@
+---
+import { contrastingTextColor } from '../utils/color';
+import { colorHref, type ColorFamily, type ColorPage } from '../data/couleurs';
+
+interface Props {
+  color: ColorPage;
+  title: string;
+  family: ColorFamily;
+  onFamilyPage: boolean;
+}
+
+const { color, title, family, onFamilyPage } = Astro.props;
+const text = contrastingTextColor(color.hex);
+---
+
+<header
+  style={`background-color: ${color.hex}; color: ${text}`}
+  class="border-b border-black/10 px-4 pt-28 pb-12 md:pb-16"
+>
+  <div class="max-w-xl mx-auto flex flex-col gap-5">
+    <nav aria-label="Fil d'Ariane" class="text-sm">
+      <a href="/couleurs" class="underline decoration-current/40 underline-offset-2 hover:decoration-current">
+        Couleurs
+      </a>
+      {!onFamilyPage && (
+        <>
+          <span aria-hidden="true"> / </span>
+          <a href={colorHref(family)} class="underline decoration-current/40 underline-offset-2 hover:decoration-current">
+            {family.name}
+          </a>
+        </>
+      )}
+      <span aria-hidden="true"> / </span>
+      <span>{color.name}</span>
+    </nav>
+    <div class="flex flex-col gap-3">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">{title}</h1>
+      <button
+        data-copy={color.hex}
+        class="self-start font-mono text-lg leading-none hover:opacity-70"
+        aria-label={`Copier ${color.hex}`}
+      >
+        {color.hex}
+      </button>
+    </div>
+    <p class="text-base leading-relaxed">{color.description}</p>
+  </div>
+</header>

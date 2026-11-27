@@ -1,0 +1,333 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ColorPageHero from '../../components/ColorPageHero.astro';
+import ToolNav from '../../components/ToolNav.astro';
+import Footer from '../../components/Footer.astro';
+import {
+  ALL_COLOR_PAGES,
+  capitalize,
+  colorBySlug,
+  colorHref,
+  familyOf,
+  isFamily,
+  listNames,
+  ofColor,
+  shadesOf,
+  type ColorPage,
+} from '../../data/couleurs';
+import {
+  complementaryHex,
+  contrastingTextColor,
+  hexToCmyk,
+  hexToHsl,
+  hexToHslChannels,
+  hexToRgb,
+  mixHex,
+  nearestColor,
+  paletteFromColor,
+} from '../../utils/color';
+
+export function getStaticPaths() {
+  return ALL_COLOR_PAGES.map((color) => ({ params: { slug: color.slug } }));
+}
+
+const color = colorBySlug(Astro.params.slug as string);
+const family = familyOf(color);
+const onFamilyPage = isFamily(color);
+const shades = shadesOf(family.slug);
+const pairs = color.pairsWith.map(colorBySlug);
+const drawPool: ColorPage[] = [family, ...shades].filter((item) => item.slug !== color.slug);
+
+const title = onFamilyPage ? `Couleur ${family.adjective}` : color.name;
+const of = ofColor(color.withArticle);
+const pageTitle = `${color.name} : code couleur (HEX, RGB et CMYK), nuances & palettes`;
+const description = onFamilyPage
+  ? `Code couleur ${of} (${color.hex}), ${shades.length > 0 ? `${shades.length} nuances de ${family.name.toLowerCase()} à copier, ` : ''}couleurs qui vont avec et palette prête à l'emploi.`
+  : `Code couleur ${of} : HEX ${color.hex}, ${hexToRgb(color.hex)}, CMYK ${hexToCmyk(color.hex)}. Nuances proches, couleurs qui vont avec et palette à copier.`;
+
+const drawLabel = `Tirer une nuance de ${family.name.toLowerCase()} au hasard`;
+const complement = complementaryHex(color.hex);
+const showComplement = (hexToHslChannels(color.hex)?.s ?? 0) >= 10;
+const nearestToComplement = nearestColor(complement, ALL_COLOR_PAGES);
+const complementName = nearestToComplement?.slug === color.slug ? null : nearestToComplement;
+const variations = [
+  ...[0.8, 0.6, 0.4, 0.2].map((amount) => ({ hex: mixHex(color.hex, '#FFFFFF', amount), label: 'Plus clair' })),
+  { hex: color.hex, label: color.name },
+  ...[0.2, 0.4, 0.6, 0.8].map((amount) => ({ hex: mixHex(color.hex, '#000000', amount), label: 'Plus foncé' })),
+].filter((item, index, list) => list.findIndex((other) => other.hex === item.hex) === index);
+const paletteHref = `/outils/palette-couleurs?c=${color.hex.replace('#', '')}`;
+const invitePalette = paletteFromColor(color.hex);
+const codes = [
+  { label: 'HEX', value: color.hex },
+  { label: 'RGB', value: hexToRgb(color.hex) },
+  { label: 'HSL', value: hexToHsl(color.hex) },
+  { label: 'CMYK', value: hexToCmyk(color.hex) },
+];
+const drawPoolData = JSON.stringify(
+  drawPool.map((item) => ({ name: item.name, hex: item.hex, href: colorHref(item) })),
+);
+
+const faqs = [
+  {
+    question: `Quel est le code couleur ${of} ?`,
+    answer: `Le code HEX ${of} est ${color.hex}. En RGB : ${hexToRgb(color.hex)}. En CMYK : ${hexToCmyk(color.hex)}.`,
+  },
+  ...(onFamilyPage && shades.length > 0
+    ? [{
+        question: `Quelles sont les nuances de ${family.name.toLowerCase()} ?`,
+        answer: `Parmi les nuances de ${family.name.toLowerCase()} les plus recherchées : ${listNames(shades)}.`,
+      }]
+    : []),
+  {
+    question: `Quelles couleurs vont avec ${color.withArticle} ?`,
+    answer: `${capitalize(color.withArticle)} s'accorde bien avec ${listNames(pairs)}. Vous pouvez aussi générer une palette complète à partir ${of} avec le générateur de palette.`,
+  },
+  ...(showComplement
+    ? [{
+        question: `Quelle est la couleur complémentaire ${of} ?`,
+        answer: `La couleur complémentaire ${of} est ${complement}, à l'opposé sur le cercle chromatique${complementName ? `, proche ${ofColor(complementName.withArticle)}` : ''}.`,
+      }]
+    : []),
+  ...(onFamilyPage
+    ? []
+    : [{
+        question: `Existe-t-il un seul code pour ${color.withArticle} ?`,
+        answer: `Non. Les noms de couleur ne sont pas normalisés : selon les nuanciers et les marques de peinture, ${color.withArticle} peut varier légèrement. ${color.hex} est une valeur de référence courante.`,
+      }]),
+];
+---
+
+<Layout
+  title={pageTitle}
+  description={description}
+  canonicalPath={colorHref(color)}
+  markdownPath={`${colorHref(color)}.md`}
+  faqs={faqs}
+>
+  <main class="font-sans">
+    <ToolNav />
+    <ColorPageHero color={color} title={title} family={family} onFamilyPage={onFamilyPage} />
+    <section class="max-w-xl flex flex-col gap-10 mx-auto py-12 px-4">
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-2">
+          Codes couleur
+        </h2>
+        <p class="text-slate-600 text-base leading-normal mb-4">
+          Cliquez sur un code pour le copier.
+        </p>
+        <ul class="grid sm:grid-cols-2 gap-2">
+          {codes.map((code) => (
+            <li>
+              <button
+                data-copy={code.value}
+                class="flex w-full items-center gap-3 rounded-lg border border-slate-200 px-3 py-2.5 text-left hover:border-slate-400 hover:bg-slate-50"
+                aria-label={`Copier le code ${code.label}`}
+              >
+                <span class="w-12 shrink-0 text-xs font-medium uppercase tracking-wide text-slate-400">{code.label}</span>
+                <span class="font-mono text-sm text-slate-900 truncate">{code.value}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {shades.length > 0 && (
+        <div>
+          <h2 class="text-slate-900 font-semibold text-2xl mb-4 mt-8">
+            {onFamilyPage ? `Nuances de ${family.name.toLowerCase()}` : `Autres nuances de ${family.name.toLowerCase()}`}
+          </h2>
+          <ul class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[family, ...shades].map((item) => (
+              <li>
+                <a
+                  href={colorHref(item)}
+                  aria-current={item.slug === color.slug ? 'page' : undefined}
+                  class:list={[
+                    'flex flex-col rounded-lg border overflow-hidden transition-shadow hover:shadow-md',
+                    item.slug === color.slug ? 'border-slate-900 ring-1 ring-slate-900' : 'border-slate-200',
+                  ]}
+                >
+                  <span class="h-14" style={`background-color: ${item.hex}`}></span>
+                  <span class="px-3 py-2">
+                    <span class="block text-sm font-medium text-slate-900">{item.name}</span>
+                    <span class="block text-xs font-mono text-slate-500">{item.hex}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4 mt-8">
+          Quelles couleurs vont avec {color.withArticle} ?
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-4">
+          {capitalize(color.withArticle)} s'accorde bien avec {listNames(pairs)}.
+        </p>
+        <ul class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {pairs.map((item) => (
+            <li>
+              <a href={colorHref(item)} class="flex flex-col rounded-lg border border-slate-200 overflow-hidden transition-shadow hover:shadow-md">
+                <span class="flex h-14">
+                  <span class="flex-1" style={`background-color: ${color.hex}`}></span>
+                  <span class="flex-1" style={`background-color: ${item.hex}`}></span>
+                </span>
+                <span class="px-3 py-2">
+                  <span class="block text-sm font-medium text-slate-900">{item.name}</span>
+                  <span class="block text-xs font-mono text-slate-500">{item.hex}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={paletteHref}
+          class="mt-4 flex items-center gap-3 rounded-lg border border-slate-200 px-3 py-3 hover:border-slate-400 hover:bg-slate-50"
+        >
+          <span class="flex h-8 w-24 rounded-md overflow-hidden shrink-0 ring-1 ring-black/10" aria-hidden="true">
+            {invitePalette.map((hex) => (
+              <span class="flex-1" style={`background-color: ${hex}`}></span>
+            ))}
+          </span>
+          <span class="flex-1 min-w-0 text-sm font-medium text-slate-900 leading-snug">
+            Créer une palette à partir {of}
+          </span>
+        </a>
+      </div>
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4 mt-8">
+          {capitalize(color.withArticle)} plus clair ou plus foncé
+        </h2>
+        <p class="text-slate-600 font-normal text-base leading-normal mb-4">
+          Cliquez sur une teinte pour copier son code HEX.
+        </p>
+        <div class="flex rounded-lg overflow-hidden border border-slate-200">
+          {variations.map((item) => (
+            <button
+              data-copy={item.hex}
+              title={`${item.label} · ${item.hex}`}
+              aria-label={`Copier ${item.hex}`}
+              class="group flex-1 h-20 flex items-end justify-center pb-2"
+              style={`background-color: ${item.hex}; color: ${contrastingTextColor(item.hex)}`}
+            >
+              <span class="hidden sm:inline text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                {item.hex}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {showComplement && (
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4 mt-8">
+          Couleur complémentaire {of}
+        </h2>
+        <div class="flex items-center gap-4">
+          <button
+            data-copy={complement}
+            aria-label={`Copier ${complement}`}
+            class="h-16 w-16 shrink-0 rounded-lg border border-slate-200"
+            style={`background-color: ${complement}`}
+          ></button>
+          <p class="text-slate-600 font-normal text-base leading-normal">
+            La couleur opposée {of} sur le cercle chromatique est <span class="font-mono text-slate-900">{complement}</span>{complementName && (
+              <>, proche <a href={colorHref(complementName)} class="text-slate-900 font-medium underline hover:text-slate-700">{ofColor(complementName.withArticle)}</a></>
+            )}. Associées, les deux couleurs créent un contraste fort.
+          </p>
+        </div>
+      </div>
+      )}
+      <div>
+        <h2 class="text-slate-900 font-semibold text-2xl mb-4 mt-8">
+          Questions fréquentes
+        </h2>
+        {faqs.map((faq) => (
+          <>
+            <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">{faq.question}</h3>
+            <p class="text-slate-600 text-base leading-normal font-normal mb-4">{faq.answer}</p>
+          </>
+        ))}
+      </div>
+      {drawPool.length > 0 && (
+        <div class="flex flex-col gap-2">
+          <button
+            id="drawShade"
+            data-pool={drawPoolData}
+            class="overflow-hidden rounded-lg border border-slate-200 text-left hover:border-slate-400 hover:bg-slate-50"
+          >
+            <span class="flex h-12 w-full" aria-hidden="true">
+              {drawPool.map((item) => (
+                <span class="flex-1" style={`background-color: ${item.hex}`}></span>
+              ))}
+            </span>
+            <span class="block px-3 py-3 text-sm font-medium text-slate-900">
+              {drawLabel}
+            </span>
+          </button>
+          <a
+            id="drawnResult"
+            href="#"
+            class="hidden items-center gap-3 rounded-lg border border-slate-200 px-3 py-3 hover:border-slate-400 hover:bg-slate-50"
+          >
+            <span id="drawnSwatch" class="h-8 w-8 rounded-md shrink-0 ring-1 ring-black/10" aria-hidden="true"></span>
+            <span id="drawnLabel" class="text-sm font-medium text-slate-900"></span>
+          </a>
+        </div>
+      )}
+      <p class="text-slate-600 font-normal text-base leading-normal">
+        Vous avez un code dans un autre format ? Utilisez le
+        <a href="/outils/convertisseur-couleur" class="text-slate-900 font-medium underline hover:text-slate-700">convertisseur de couleur</a>,
+        ou découvrez <a href="/couleurs" class="text-slate-900 font-medium underline hover:text-slate-700">toutes les couleurs</a>.
+      </p>
+    </section>
+    <Footer />
+  </main>
+
+  <div
+    id="toast"
+    class="fixed bottom-4 md:bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-slate-100 border border-slate-100/50 px-4 py-2 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50"
+  >
+    Code copié !
+  </div>
+</Layout>
+
+<script>
+  type Drawn = { name: string; hex: string; href: string };
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.classList.remove('opacity-0');
+    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const text = button.dataset.copy;
+      if (!text) return;
+      await navigator.clipboard.writeText(text);
+      showToast();
+    });
+  });
+
+  const drawButton = document.getElementById('drawShade');
+  const pool: Drawn[] = JSON.parse(drawButton?.dataset.pool ?? '[]');
+  let lastHref = '';
+
+  drawButton?.addEventListener('click', () => {
+    const candidates = pool.length > 1 ? pool.filter((item) => item.href !== lastHref) : pool;
+    const drawn = candidates[Math.floor(Math.random() * candidates.length)];
+    if (!drawn) return;
+    lastHref = drawn.href;
+
+    const result = document.getElementById('drawnResult') as HTMLAnchorElement | null;
+    const swatch = document.getElementById('drawnSwatch');
+    const label = document.getElementById('drawnLabel');
+    if (!result) return;
+    result.href = drawn.href;
+    result.classList.remove('hidden');
+    result.classList.add('flex');
+    if (swatch) swatch.style.backgroundColor = drawn.hex;
+    if (label) label.textContent = `Voir ${drawn.name} · ${drawn.hex}`;
+  });
+</script>

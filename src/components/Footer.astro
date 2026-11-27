@@ -33,6 +33,18 @@ const path = currentPath(Astro.url.pathname);
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="/couleurs"
+              class:list={[
+                'transition-colors hover:text-slate-900',
+                path === '/couleurs' ? 'text-slate-900 font-medium' : 'text-slate-600',
+              ]}
+              aria-current={path === '/couleurs' ? 'page' : undefined}
+            >
+              Couleurs
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
