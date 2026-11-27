@@ -8,15 +8,15 @@ import { IDLE_BACKGROUND } from '../../data/namedColors';
 const faqs = [
   {
     question: 'Comment faire un tirage au sort de couleur en ligne ?',
-    answer: 'Entrez vos couleurs dans la liste, puis cliquez sur « Tirer une couleur ». Une couleur est choisie au hasard parmi celles que vous avez écrites.',
+    answer: 'Entrez vos couleurs dans la liste, puis cliquez sur « Tirer une couleur ». Une ligne est tirée parmi celles que vous avez écrites.',
   },
   {
     question: 'Puis-je utiliser mes propres couleurs ?',
     answer: 'Oui. Une couleur par ligne. Vous pouvez écrire des noms classiques, des équipes, ou n\'importe quel libellé.',
   },
   {
-    question: 'Quelle est la différence avec choisir une couleur au hasard ?',
-    answer: '« Choisir une couleur au hasard » pioche toujours dans la même liste de couleurs simples. Ici, vous fournissez la liste, et vous pouvez retirer une couleur une fois tirée.',
+    question: 'Puis-je tirer sans écrire de liste ?',
+    answer: 'Non. Cet outil ne pioche que dans les lignes que vous avez écrites, et vous pouvez en retirer une une fois tirée.',
   },
   {
     question: 'Est-ce un dé virtuel de couleur ?',
@@ -31,7 +31,7 @@ const faqs = [
 
 <Layout
   title="Tirage au sort de couleur en ligne | Dé virtuel"
-  description="Faites un tirage au sort de couleur en ligne. Entrez votre liste, tirez une couleur au hasard et retirez-la si besoin. Idéal pour la classe, les jeux et les ateliers."
+  description="Faites un tirage au sort de couleur en ligne. Entrez votre liste, tirez-en une et retirez-la si besoin. Idéal pour la classe, les jeux et les ateliers."
   canonicalPath="/outils/tirage-au-sort-couleur"
   markdownPath="/outils/tirage-au-sort-couleur.md"
   faqs={faqs}
@@ -62,7 +62,7 @@ const faqs = [
           Comment faire un tirage au sort de couleur ?
         </h2>
         <p class="text-slate-600 font-normal text-base leading-normal mb-2">
-          Écrivez vos couleurs, une par ligne, puis cliquez sur <strong>Tirer une couleur</strong>. Le hasard en choisit une dans la liste.
+          Écrivez vos couleurs, une par ligne, puis cliquez sur <strong>Tirer une couleur</strong>. Une ligne de la liste est tirée.
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal">
           Cochez <strong>Retirer la couleur après le tirage</strong> pour qu'elle ne ressorte plus, comme un vrai tirage au sort ou un dé virtuel de couleur.
@@ -93,17 +93,17 @@ const faqs = [
       </div>
       <div>
         <h2 class="text-slate-900 font-semibold text-2xl mb-4">
-          Tirage au sort, pas générateur HEX
+          Uniquement les couleurs de votre liste
         </h2>
         <p class="text-slate-600 font-normal text-base leading-normal mb-2">
-          Cet outil sert à piocher dans une liste : un tirage au sort de couleur en ligne, pour la classe, un jeu de société, un atelier ou un défi.
+          Cet outil pioche dans les lignes que vous écrivez : pour la classe, un jeu de société, un atelier ou un défi. Il ne propose rien en dehors de cette liste.
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal mb-2">
-          Si vous voulez seulement rouge, bleu, vert… sans préparer de liste, utilisez
+          Pour une couleur simple déjà prête, utilisez
           <a href="/outils/choisir-une-couleur-au-hasard" class="text-slate-900 font-medium underline hover:text-slate-700">choisir une couleur au hasard</a>.
         </p>
         <p class="text-slate-600 font-normal text-base leading-normal">
-          Si vous avez besoin d'un code HEX, RGB ou HSL, utilisez le
+          Pour un code à copier, utilisez le
           <a href="/" class="text-slate-900 font-medium underline hover:text-slate-700">générateur de couleur aléatoire</a>.
         </p>
       </div>
@@ -116,7 +116,7 @@ const faqs = [
           <li>🎮 Choisir qui commence dans un jeu</li>
           <li>🎲 Remplacer un dé virtuel de couleur</li>
           <li>🖌️ Tirer une couleur pour un atelier ou un défi</li>
-          <li>👥 Attribuer une équipe ou un rôle au hasard</li>
+          <li>👥 Attribuer une équipe ou un rôle</li>
         </ul>
       </div>
       <div>
@@ -127,7 +127,7 @@ const faqs = [
           Comment faire un tirage au sort de couleur en ligne ?
         </h3>
         <p class="text-slate-600 text-base leading-normal font-normal mb-4">
-          Entrez vos couleurs dans la liste, puis cliquez sur « Tirer une couleur ». Une couleur est choisie au hasard parmi celles que vous avez écrites.
+          Entrez vos couleurs dans la liste, puis cliquez sur « Tirer une couleur ». Une ligne est tirée parmi celles que vous avez écrites.
         </p>
         <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
           Puis-je utiliser mes propres couleurs ?
@@ -136,10 +136,10 @@ const faqs = [
           Oui. Une couleur par ligne. Vous pouvez écrire des noms classiques, des équipes, ou n'importe quel libellé.
         </p>
         <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
-          Quelle est la différence avec choisir une couleur au hasard ?
+          Puis-je tirer sans écrire de liste ?
         </h3>
         <p class="text-slate-600 text-base leading-normal font-normal mb-4">
-          « Choisir une couleur au hasard » pioche toujours dans la même liste de couleurs simples. Ici, vous fournissez la liste, et vous pouvez retirer une couleur une fois tirée.
+          Non. Cet outil ne pioche que dans les lignes que vous avez écrites, et vous pouvez en retirer une une fois tirée.
         </p>
         <h3 class="text-slate-900 font-semibold text-base leading-normal mb-1">
           Est-ce un dé virtuel de couleur ?

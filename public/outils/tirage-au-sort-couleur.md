@@ -15,5 +15,7 @@ La liste est enregistrée localement dans le navigateur.
 
 ## Ce que cet outil n'est pas
 
-- Pas un générateur HEX : [générateur de couleur aléatoire](https://generateurdecouleur.com/index.md)
-- Pas un tirage dans une liste fixe de couleurs simples : [choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md)
+Il pioche seulement dans la liste écrite sur la page. Il ne fournit pas de code couleur.
+
+- Couleur simple déjà prête : [choisir une couleur au hasard](https://generateurdecouleur.com/outils/choisir-une-couleur-au-hasard.md)
+- Code à copier : [générateur de couleur aléatoire](https://generateurdecouleur.com/index.md)
