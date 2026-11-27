@@ -1,6 +1,7 @@
 ---
 import AdBanner from "../components/AdBanner.astro";
-import framerIcon from "../assets/framer-icon.jpeg";
+import ConsentNotice from "../components/ConsentNotice.astro";
+import instantGradientIcon from "../assets/instantgradient-icon.png";
 
 export type Faq = {
   question: string;
@@ -83,15 +84,28 @@ const faqJsonLd =
       src="https://api.pirsch.io/pa.js"
       id="pianjs"
       data-code="5C3k55SkoTTy4LonZYJmHMwugsasSt8Z"></script>
+    <script is:inline>
+      try {
+        var analyticsConsent = localStorage.getItem('analyticsConsent');
+        if (analyticsConsent === 'granted' || analyticsConsent === 'denied') {
+          document.documentElement.classList.add('consent-known');
+        }
+      } catch (error) {}
+    </script>
+    <style is:inline>
+      html:not(.consent-known) #ad-banner { display: none; }
+      html.consent-known #consent-notice { display: none; }
+    </style>
   </head>
   <body id="top" class="bg-white text-slate-900">
     <slot />
+    <ConsentNotice />
     <AdBanner
-      title="Framer"
-      description="Créez des sites d'exception avec l'IA. L'outil de preference pour les créatifs."
-      cta="Commencer gratuitement"
-      link="/go/framer"
-      imageUrl={framerIcon}
+      title="InstantGradient"
+      description="Créez des dégradés animés en quelques secondes et exportez-les en image 4K, vidéo ou code."
+      cta="Essayer gratuitement"
+      link="/go/instantgradient"
+      imageUrl={instantGradientIcon}
     />
   </body>
 </html>
